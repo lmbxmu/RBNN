@@ -376,7 +376,7 @@ def Tracking(model,epoch,save_path=None):
             conv.append(add.cpu().numpy())
     img_size = int(np.ceil(len(conv)/5))
     i = 1
-    fig=plt.figure(figsize=(img_size/5*12, 12))
+    fig=plt.figure(figsize=(16, 16*img_size/5))
     fig.tight_layout(pad=0.1, w_pad=3.0, h_pad=3.0)
     for w in conv:
         plt.subplot(img_size,5,i)
@@ -395,7 +395,7 @@ def Tracking(model,epoch,save_path=None):
             add=getattr(module,'Rweight',module.weight).cuda().flatten().detach()
             Rconv.append(add.cpu().numpy())
     i = 1
-    fig=plt.figure(figsize=(img_size/5*12, 12))
+    fig=plt.figure(figsize=(16, 16*img_size/5))
     fig.tight_layout(pad=0.1, w_pad=3.0, h_pad=3.0)
     for w in Rconv:
         plt.subplot(img_size,5,i)

@@ -1,7 +1,7 @@
 torch.\_\_version\_\_=1.3.0  
 
 # 1. Cifar
-```python
+```bash
 nohup python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
@@ -33,7 +33,7 @@ nohup python -u main.py \
 `--lr` &emsp;初始学习率，默认0.1  
 `--weight_decay` &emsp;默认1e-4  
 `--momentum` &emsp;默认0.9  
-`--workers` &emsp;data loading workers，默认8
+`--workers` &emsp;data loading workers，默认8  
 `--epochs` &emsp;epoch数，默认400  
 `--batch_size / -b` &emsp;batch size，默认256   
 `--batch_size_test / -bt` &emsp;evaluate batch size, 默认128  
