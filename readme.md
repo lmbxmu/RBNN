@@ -1,7 +1,7 @@
 torch.\_\_version\_\_=1.3.0  
 
 # 1. Cifar
-```python
+```bash
 nohup python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
