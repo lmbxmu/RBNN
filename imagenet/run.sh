@@ -10,4 +10,8 @@ nohup python -u main.py \
 --lr 0.1 \
 -b 256 \
 -bt 128 \
+--rotation_update 2 \
+--Tmin 1e-2 \
+--Tmax 1e1 \
+--lr_type cos \
 > output.log 2>&1 &

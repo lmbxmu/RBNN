@@ -6,7 +6,6 @@ nohup python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
 --results_dir ./ \
---save result \
 --data_path /data \
 --dataset cifar10 \
 --epoch 400 \
@@ -57,7 +56,6 @@ CUDA_VISIBLE_DEVICES=0,1 nohup python -u main.py \
 --gpus 0,1 \
 --model resnet18_1w1a \
 --results_dir ./ \
---save result \
 --data_path /data \
 --dataset imagenet \
 --epoch 120 \
@@ -79,4 +77,55 @@ CUDA_VISIBLE_DEVICES=0,1 nohup python -u main.py \
 &emsp;&emsp; mobilenetv1等尚未添加   
 `--print_freq` &emsp;打印频率，默认500  
 
+旋转操作嵌入到卷积核内，在文件`modules-binarized_modules`里，  
+```python
+V = self.R1.t()@X.detach()@self.R2
+B = torch.sign(V)
+#* update R1
+D1=sum([Bi@(self.R2.t())@(Xi.t()) for (Bi,Xi) in zip(B,X.detach())]).cpu()
+U1,S1,V1=torch.svd(D1)
+self.R1=(V1@(U1.t())).to(X.device)
+#* update R2
+D2=sum([(Xi.t())@self.R1@Bi for (Xi,Bi) in zip(X.detach(),B)]).cpu()
+U2,S2,V2=torch.svd(D2)
+self.R2=(U2@(V2.t())).to(X.device)
+```
+这一部分将svd计算转移到cpu上，将计算后的R1，R2重新转移到GPU上，服务器上实测放在cpu上更快，但是GPU整体利用率很低    
+
+可调参数：  
+Bi-Realnet中参数设置： 
+1. Resnet18
+* SGD
+* momentum 0.9
+* weight_decay 0
+* lr 0.01
+* batch_size=128 (cifar上发现小batchsize效果更好)
+* epochs 20 (没写错)
+* lr_type step  
+* lr_decay_step [10,15]
+1. Resnet34 
+* SGD
+* momentum 0.9
+* weight_decay 0
+* lr 0.08
+* batch_size=1024  
+* epochs 40 (没写错)
+* lr_type step  
+* lr_decay_step [20,30]
+论文中提到训练完后，固定weight到-1，1，单独对BatchNorm层再训一个epoch（这部分代码还没写）
+
+ReActNet中参数设置： 
+两阶段训练方法，用到蒸馏(Training binary neural networks with real-to- binary convolutions.)  
+* Adam (代码里用的sgd，在cifar上发现adam效果不如sgd)  
+* epoch 120 
+* batch_size 256  
+* lr 5e-4 (没写错)
+* linear lr decay  
+* weight_decay 第一阶段1e-5,第二阶段0
+* 用到了Distributional Loss,替换原始CE loss（公式上看着像无教师蒸馏）
+
+--weight_decay 默认1e-4，BI-Real中设为0  
+--Tmin/Tmax 默认1e-2 / 1e1 , 可调1e-3/1e1 ; 1e-0.5,1e1等  
+--batchsize 默认256 ,可调128  
+--rotation_update 默认2，可调大到5/10等  
 
