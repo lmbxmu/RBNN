@@ -5,7 +5,6 @@ from torch import nn
 import torch.nn.functional as F
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
-from tensorboardX import SummaryWriter
 
 def load_data(type='both',dataset='cifar10',data_path='/home/xuzihan/data',batch_size = 256,batch_size_test=256,num_workers=0):
     # load data

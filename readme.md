@@ -7,11 +7,14 @@ nohup python -u main.py \
 --model resnet20_1w1a \
 --results_dir ./ \
 --save result \
---data_path /home/xuzihan/data \
+--data_path /data \
 --dataset cifar10 \
---weight_hist 0 \
 --epoch 400 \
 --lr 0.1 \
+--rotation_update 2 \
+--Tmin 1e-2 \
+--Tmax 1e1 \
+--lr_type cos \
 -b 256 \
 -bt 128 \
 > output.log 2>&1 &
@@ -42,13 +45,38 @@ nohup python -u main.py \
 `--mixup` &emsp;使用mixup  
 `--labelsmooth` &emsp;使用label smooth  
 `--weight_hist` &emsp;输出weight的直方图，默认0，设为n表示每隔n个epoch输出一次   
+`--rotation_update` &emsp;每n个epoch更新一次旋转矩阵，默认2   
+`--Tmin` &emsp;梯度近似函数参数T的最小值，默认1e-2  
+`--Tmax` &emsp;梯度近似函数参数T的最大值，默认1e1  
+`--lr_type` &emsp;lr_scheduler类型，默认cos，可选step  
+`--lr_decay_step` &emsp;step lr的更新点，eg: 30 60 90   
 
 # 2. ImageNet
+```bash
+CUDA_VISIBLE_DEVICES=0,1 nohup python -u main.py \
+--gpus 0,1 \
+--model resnet18_1w1a \
+--results_dir ./ \
+--save result \
+--data_path /data \
+--dataset imagenet \
+--epoch 120 \
+--lr 0.1 \
+--rotation_update 2 \
+--Tmin 1e-2 \
+--Tmax 1e1 \
+--lr_type cos \
+-b 256 \
+-bt 128 \
+> output.log 2>&1 &
+```  
+注：多卡时，pytorch1.3以下版本需在开头注明CUDA_VISIBLE_DEVICES=..., 1.3及以上不需要注明    
 默认使用DALI  
 其他参数和cifar10相同  
 `--model / -a` &emsp;选择模型，  
 &emsp;&emsp;默认resnet18_1w1a,可选择  
 &emsp;&emsp; resnet34_1w1a  
 &emsp;&emsp; mobilenetv1等尚未添加   
+`--print_freq` &emsp;打印频率，默认500  
 
 

@@ -5,6 +5,7 @@ import numpy as np
 import torch.nn.functional as F
 from torch.autograd import Function,Variable
 from scipy.stats import ortho_group
+from utils.options import args
 
 class BinarizeConv2d(nn.Conv2d):
 
@@ -37,7 +38,7 @@ class BinarizeConv2d(nn.Conv2d):
         w2 = w1 / w1.view(w1.size(0), -1).std(-1).view(w1.size(0), 1, 1, 1) 
         a,b = self.a,self.b
         X=w2.view(w.shape[0],a,b)
-        if self.epoch%2==0:
+        if self.epoch%args.rotation_update==0:
             for _ in range(3):
                 #* update B
                 V = self.R1.t()@X.detach()@self.R2

@@ -44,7 +44,7 @@ parser.add_argument(
     '--model',
     '-a',
     metavar='MODEL',
-    default='mobilenetv1_1w1a',
+    default='resnet18_1w1a',
     help='model architecture ')
 
 parser.add_argument(
@@ -128,10 +128,10 @@ parser.add_argument(
 parser.add_argument(
     '--print_freq',
     '-p',
-    default=100,
+    default=500,
     type=int,
     metavar='N',
-    help='print frequency (default: 50)')
+    help='print frequency (default: 500)')
 
 parser.add_argument(
     '--time_estimate',
@@ -158,6 +158,40 @@ parser.add_argument(
     type=int,
     metavar='N',
     help='frequency of plotting histogram of weights, set -1 to disable')
+
+parser.add_argument(
+    '--rotation_update',
+    default=2,
+    type=int,
+    metavar='N',
+    help='interval of updating rotation matrix (default:2)')
+
+parser.add_argument(
+    '--Tmin',
+    default=1e-2, 
+    type=float, 
+    metavar='M',
+    help='minimum of T (default:1e-2)')
+
+parser.add_argument(
+    '--Tmax',
+    default=1e1, 
+    type=float, 
+    metavar='M',
+    help='maximum of T (default:1e1)')
+
+parser.add_argument(
+    '--lr_type',
+    type=str,
+    default='cos',
+    help='choose lr_scheduler,(default:cos)')
+
+parser.add_argument(
+    '--lr_decay_step',
+    nargs='+',
+    type=int,
+    help='lr decay step for MultiStepLR'
+)
 
 # args = parser.parse_args()
 args = parser.parse_known_args()[0]

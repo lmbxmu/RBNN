@@ -25,13 +25,19 @@ def main():
     random.seed(args.seed)
     if args.evaluate:
         args.results_dir = '/tmp'
-    if args.save is '':
-        args.save = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    # if args.save is '':
+    #     args.save = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     save_path = os.path.join(args.results_dir, args.save)
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    setup_logging(os.path.join(save_path, 'log.txt'))
+    with open(os.path.join(save_path,'config.txt'), 'w') as args_file:
+        args_file.write(str(datetime.now())+'\n\n')
+        for args_n,args_v in args.__dict__.items():
+            args_v = '' if not args_v and not isinstance(args_v,int) else args_v
+            args_file.write(str(args_n)+':  '+str(args_v)+'\n')
+
+    setup_logging(os.path.join(save_path, 'logger.log'))
 
     logging.info("saving to %s", save_path)
     logging.debug("run arguments: %s", args)
@@ -136,14 +142,14 @@ def main():
                                     batch_size_test=args.batch_size_test, 
                                     num_workers=args.workers)
 
-
-    
-
     optimizer = torch.optim.SGD([{'params':model.parameters(),'initial_lr':args.lr}], args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
     # optimizer = torch.optim.Adam([{'params':model.parameters(),'initial_lr':args.lr}],lr=args.lr) 
-    lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs, eta_min = 0, last_epoch=args.start_epoch)
+    if args.lr_type == 'cos':
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs, eta_min = 0, last_epoch=args.start_epoch)
+    elif args.lr_type == 'step':
+        lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
     logging.info('scheduler: %s', lr_scheduler)
 
     def cosin(i,T,emin=0,emax=0.01):
@@ -152,7 +158,7 @@ def main():
 
     def Log_UP(epoch):
         "compute t&k in back-propagation"
-        T_min, T_max = torch.tensor(1e-2).float(), torch.tensor(1e1).float()
+        T_min, T_max = torch.tensor(args.Tmin).float(), torch.tensor(args.Tmax).float()
         Tmin, Tmax = torch.log10(T_min), torch.log10(T_max)
         t = torch.tensor([torch.pow(torch.tensor(10.), Tmin + (Tmax - Tmin) / args.epochs * epoch)]).float()
         k = max(1/t,torch.tensor(1.)).float()
@@ -169,7 +175,7 @@ def main():
         if isinstance(module,nn.Conv2d):
             conv_modules.append(module)
 
-    for epoch in range(args.start_epoch, args.epochs):
+    for epoch in range(args.start_epoch+1, args.epochs):
         time_start = datetime.now()
         #*warm up
         # if epoch <5: 
@@ -254,6 +260,7 @@ def main():
         #* Tracking weights and plot histograms of weights 
         if args.weight_hist and epoch%args.weight_hist==0:
             Tracking(model,epoch,save_path)
+    
 
     logging.info('*'*50+'DONE'+'*'*50)
     logging.info('\n Best_Epoch: {0}\t'
