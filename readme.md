@@ -115,6 +115,7 @@ Bi-Realnet中参数设置：
 论文中提到训练完后，固定weight到-1，1，单独对BatchNorm层再训一个epoch（这部分代码还没写）
 
 ReActNet中参数设置： 
+backbone是修改的mobilenetV1-0.5  
 两阶段训练方法，用到蒸馏(Training binary neural networks with real-to- binary convolutions.)  
 * Adam (代码里用的sgd，在cifar上发现adam效果不如sgd)  
 * epoch 120 
