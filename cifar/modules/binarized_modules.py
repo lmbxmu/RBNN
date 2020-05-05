@@ -11,10 +11,8 @@ class BinarizeConv2d(nn.Conv2d):
 
     def __init__(self, *kargs, **kwargs):
         super(BinarizeConv2d, self).__init__(*kargs, **kwargs)
-        k = torch.tensor([10.]).float()
-        t = torch.tensor([0.1]).float()
-        self.register_buffer('k',k)
-        self.register_buffer('t',t)
+        self.k = torch.tensor([10.]).float()
+        self.t = torch.tensor([0.1]).float()
         self.epoch=-1
 
         w=self.weight
@@ -57,8 +55,8 @@ class BinarizeConv2d(nn.Conv2d):
 
         self.Rotate = torch.mean(torch.abs(torch.sin(self.rotate)))
         #* binarize
-        bw = BinaryQuantize().apply(w3, self.k, self.t)
-        ba = BinaryQuantize().apply(input, self.k, self.t)
+        bw = BinaryQuantize().apply(w3, self.k.to(w.device), self.t.to(w.device))
+        ba = BinaryQuantize().apply(input, self.k.to(w.device), self.t.to(w.device))
         #* 1bit conv
         output = F.conv2d(ba, bw, self.bias,
                           self.stride, self.padding,

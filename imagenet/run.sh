@@ -1,4 +1,4 @@
-nohup python -u main.py \
+python -u main.py \
 --gpus 0,1,2 \
 --model resnet18_1w1a \
 --results_dir ./ \
@@ -14,4 +14,3 @@ nohup python -u main.py \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
-> output.log 2>&1 &

@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=2 nohup python -u main.py \
+python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
 --results_dir DIR \
@@ -13,4 +13,3 @@ CUDA_VISIBLE_DEVICES=2 nohup python -u main.py \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
-> output2.log 2>&1 &

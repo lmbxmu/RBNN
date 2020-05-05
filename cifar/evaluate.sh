@@ -1,4 +1,4 @@
-nohup python -u main.py \
+python -u main.py \
 --gpus 0 \
 -e best_model_path \
 --model resnet20_1w1a \
@@ -11,4 +11,3 @@ nohup python -u main.py \
 --lr 0.1 \
 -b 256 \
 -bt 128 \
-> evaluate.log 2>&1 &
