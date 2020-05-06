@@ -18,7 +18,7 @@ import dataset
 
 
 def main():
-    global args, best_prec1
+    global args, best_prec1, conv_modules
     best_prec1 = 0
 
     random.seed(args.seed)
@@ -269,6 +269,9 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
     for i, batch_data in enumerate(data_loader):
         # measure data loading time
         data_time.update(time.time() - end)
+        if i==1 and training:
+            for module in conv_modules:
+                module.epoch=-1
         inputs = batch_data[0]['data']
         target = batch_data[0]['label'].squeeze().long()
         batchsize = args.batch_size if training else args.batch_size_test

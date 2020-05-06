@@ -10,12 +10,13 @@ nohup python -u main.py \
 --dataset cifar10 \
 --epoch 400 \
 --lr 0.1 \
---rotation_update 2 \
+--rotation_update 1 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
 -b 256 \
 -bt 128 \
+--use_gpu \
 > output.log 2>&1 &
 ```
 `--results_dir` &emsp;保存目录  
