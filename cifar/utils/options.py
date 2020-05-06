@@ -161,7 +161,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--rotation_update',
-    default=2,
+    default=1,
     type=int,
     metavar='N',
     help='interval of updating rotation matrix (default:2)')

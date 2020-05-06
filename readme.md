@@ -2,7 +2,7 @@ torch.\_\_version\_\_=1.3.0
 
 # 1. Cifar
 ```bash
-nohup python -u main.py \
+python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
 --results_dir ./ \
@@ -10,14 +10,11 @@ nohup python -u main.py \
 --dataset cifar10 \
 --epoch 400 \
 --lr 0.1 \
---rotation_update 1 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
---lr_type cos \
 -b 256 \
 -bt 128 \
 --use_gpu \
-> output.log 2>&1 &
 ```
 `--results_dir` &emsp;保存目录  
 `--save` &emsp;保存文件夹名  
@@ -55,7 +52,7 @@ nohup python -u main.py \
 
 # 2. ImageNet
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 nohup python -u main.py \
+CUDA_VISIBLE_DEVICES=0,1 python -u main.py \
 --gpus 0,1 \
 --model resnet18_1w1a \
 --results_dir ./ \
@@ -63,13 +60,11 @@ CUDA_VISIBLE_DEVICES=0,1 nohup python -u main.py \
 --dataset imagenet \
 --epoch 120 \
 --lr 0.1 \
---rotation_update 2 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
---lr_type cos \
 -b 256 \
 -bt 128 \
-> output.log 2>&1 &
+--use_gpu \
 ```  
 注：多卡时，pytorch1.3以下版本需在开头注明CUDA_VISIBLE_DEVICES=..., 1.3及以上不需要注明    
 默认使用DALI  
