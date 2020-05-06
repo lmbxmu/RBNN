@@ -48,7 +48,9 @@ nohup python -u main.py \
 `--Tmin` &emsp;梯度近似函数参数T的最小值，默认1e-2  
 `--Tmax` &emsp;梯度近似函数参数T的最大值，默认1e1  
 `--lr_type` &emsp;lr_scheduler类型，默认cos，可选step  
-`--lr_decay_step` &emsp;step lr的更新点，eg: 30 60 90   
+`--lr_decay_step` &emsp;step lr的更新点，eg: 30 60 90    
+`--a32` &emsp;使用w1a32    
+`--use_gpu` &emsp;使用gpu来计算svd   
 
 # 2. ImageNet
 ```bash
@@ -75,7 +77,7 @@ CUDA_VISIBLE_DEVICES=0,1 nohup python -u main.py \
 &emsp;&emsp;默认resnet18_1w1a,可选择  
 &emsp;&emsp; resnet34_1w1a  
 &emsp;&emsp; mobilenetv1等尚未添加   
-`--print_freq` &emsp;打印频率，默认500  
+`--print_freq` &emsp;打印频率，默认500    
 
 旋转操作嵌入到卷积核内，在文件`modules-binarized_modules`里，  
 ```python

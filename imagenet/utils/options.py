@@ -190,8 +190,18 @@ parser.add_argument(
     '--lr_decay_step',
     nargs='+',
     type=int,
-    help='lr decay step for MultiStepLR'
-)
+    help='lr decay step for MultiStepLR')
 
-# args = parser.parse_args()
-args = parser.parse_known_args()[0]
+parser.add_argument(
+    '--a32',
+    dest='a32',
+    action='store_true',
+    help='w1a32')
+
+parser.add_argument(
+    '--use_gpu',
+    dest='use_gpu',
+    action='store_true',
+    help='use gpu to compute svd')
+
+args = parser.parse_args()

@@ -27,7 +27,6 @@ class BinarizeConv2d(nn.Conv2d):
         self.alpha=nn.Parameter(sw.cuda(),requires_grad=True)
         # self.rand = torch.rand(sw.shape)
         self.rotate = nn.Parameter(torch.rand(w.size(0),1,1,1).cuda()*np.pi/2,requires_grad=True)
-        # self.rotate = nn.Parameter(torch.zeros(w.size(0),1,1,1),requires_grad=True)
         self.Rotate = torch.zeros(1)
 
     def forward(self, input):
@@ -42,13 +41,21 @@ class BinarizeConv2d(nn.Conv2d):
                 V = self.R1.t()@X.detach()@self.R2
                 B = torch.sign(V)
                 #* update R1
-                D1=sum([Bi@(self.R2.t())@(Xi.t()) for (Bi,Xi) in zip(B,X.detach())]).cpu()
+                D1=sum([Bi@(self.R2.t())@(Xi.t()) for (Bi,Xi) in zip(B,X.detach())])
+                if not args.use_gpu:
+                    D1=D1.cpu()
                 U1,S1,V1=torch.svd(D1)
-                self.R1=(V1@(U1.t())).to(X.device)
+                self.R1=(V1@(U1.t()))
+                if not args.use_gpu:
+                    self.R1=self.R1.to(X.device)
                 #* update R2
-                D2=sum([(Xi.t())@self.R1@Bi for (Xi,Bi) in zip(X.detach(),B)]).cpu()
+                D2=sum([(Xi.t())@self.R1@Bi for (Xi,Bi) in zip(X.detach(),B)])
+                if not args.use_gpu:
+                    D2=D2.cpu()
                 U2,S2,V2=torch.svd(D2)
-                self.R2=(U2@(V2.t())).to(X.device)
+                self.R2=(U2@(V2.t()))
+                if not args.use_gpu:
+                    self.R2=self.R2.to(X.device)
         self.Rweight=((self.R1.t())@X@(self.R2)).view_as(w)
         delta = self.Rweight.detach() - w2
         w3 = w2 + torch.abs(torch.sin(self.rotate)) * delta 
@@ -56,7 +63,10 @@ class BinarizeConv2d(nn.Conv2d):
         self.Rotate = torch.mean(torch.abs(torch.sin(self.rotate)))
         #* binarize
         bw = BinaryQuantize().apply(w3, self.k.to(w.device), self.t.to(w.device))
-        ba = BinaryQuantize().apply(input, self.k.to(w.device), self.t.to(w.device))
+        if args.a32:
+            ba = input
+        else:
+            ba = BinaryQuantize().apply(input, self.k.to(w.device), self.t.to(w.device))
         #* 1bit conv
         output = F.conv2d(ba, bw, self.bias,
                           self.stride, self.padding,
