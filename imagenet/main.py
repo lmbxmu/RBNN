@@ -9,7 +9,6 @@ import torch.backends.cudnn as cudnn
 import models_bnn
 import models
 import numpy as np
-from torch.utils.tensorboard import SummaryWriter
 from torch.autograd import Variable
 from utils.options import args
 from utils.common import *
@@ -48,7 +47,6 @@ def main():
         cudnn.benchmark = True
     else:
         args.gpus = None
-    # device = torch.device(f"cuda:{args.gpus[0]}") if torch.cuda.is_available() else 'cpu'
 
     # create model
     logging.info("creating model %s", args.model)
@@ -69,8 +67,6 @@ def main():
         model = eval(model_zoo+args.model)(num_classes=num_classes).cuda()
     else: 
         model = nn.DataParallel(eval(model_zoo+args.model)(num_classes=num_classes))
-    # model.L1_alpha = torch.nn.Parameter(torch.tensor(1), requires_grad=True)
-    writer=SummaryWriter(os.path.join(save_path,'run'),comment=args.model)
     logging.info("model structure: %s", model)
 
     # optionally resume from a checkpoint
@@ -248,21 +244,6 @@ def main():
                      .format(epoch + 1, train_loss=train_loss, val_loss=val_loss,
                              train_prec1=train_prec1, val_prec1=val_prec1,
                              train_prec5=train_prec5, val_prec5=val_prec5))
-      
-        writer.add_scalar('Train_loss',train_loss,epoch)
-        writer.add_scalar('Train_prec_1',train_prec1,epoch)
-        writer.add_scalar('Train_prec_5',train_prec5,epoch)
-        writer.add_scalar('Val_loss',val_loss,epoch)
-        writer.add_scalar('Val_prec_1',val_prec1,epoch)
-        writer.add_scalar('Val_prec_5',val_prec5,epoch)
-        for param_group in optimizer.param_groups:
-            writer.add_scalar('LR',param_group['lr'],epoch)
-        # writer.add_scalar('L1_alpha',model.L1_alpha,epoch)
-        rotate_record = []
-        for no,(name,module) in enumerate(model.named_modules()):
-            if isinstance(module,BinarizeConv2d): # all conv layers except the first one
-                rotate_record.append(module.Rotate)
-        writer.add_scalar('rotate_ratio',torch.mean(torch.tensor(rotate_record)),epoch)
 
         #* Tracking weights and plot histograms of weights 
         if args.weight_hist and epoch%args.weight_hist==0:
@@ -276,7 +257,6 @@ def main():
                      'Best_Prec1 {prec1:.4f} \t'
                      'Best_Loss {loss:.3f} \t'
                      .format(best_epoch+1, prec1=best_prec1, loss=best_loss))
-    writer.close()
 
 def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=None,beta_distribution=None):
     batch_time = AverageMeter()
