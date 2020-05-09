@@ -18,8 +18,9 @@ import dataset
 
 
 def main():
-    global args, best_prec1, conv_modules
+    global args, best_prec1, best_prec5, conv_modules
     best_prec1 = 0
+    best_prec5 = 0
 
     random.seed(args.seed)
     if args.evaluate:
@@ -88,6 +89,7 @@ def main():
             checkpoint = torch.load(checkpoint_file)
             args.start_epoch = checkpoint['epoch'] - 1
             best_prec1 = checkpoint['best_prec1']
+            best_prec5 = checkpoint['best_prec5']
             model.load_state_dict(checkpoint['state_dict'])
             logging.info("loaded checkpoint '%s' (epoch %s)",
                          checkpoint_file, checkpoint['epoch'])
@@ -213,6 +215,7 @@ def main():
         is_best = val_prec1 > best_prec1
         if is_best:
             best_prec1 = max(val_prec1, best_prec1)
+            best_prec5 = max(val_prec5, best_prec5)
             best_epoch = epoch
             best_loss = val_loss
 
@@ -225,6 +228,7 @@ def main():
                 'model': args.model,
                 'state_dict': model_state_dict,
                 'best_prec1': best_prec1,
+                'best_prec5': best_prec5,
                 'parameters': list(model_parameters),
             }, is_best, path=save_path)
 
@@ -255,8 +259,9 @@ def main():
     logging.info('*'*50+'DONE'+'*'*50)
     logging.info('\n Best_Epoch: {0}\t'
                      'Best_Prec1 {prec1:.4f} \t'
+                     'Best_Prec5 {prec5:.4f} \t'
                      'Best_Loss {loss:.3f} \t'
-                     .format(best_epoch+1, prec1=best_prec1, loss=best_loss))
+                     .format(best_epoch+1, prec1=best_prec1, prec5=best_prec5, loss=best_loss))
 
 def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=None,beta_distribution=None):
     batch_time = AverageMeter()

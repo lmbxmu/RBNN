@@ -21,9 +21,9 @@ class HybridTrainPipe(Pipeline):
                                             image_type=types.RGB,
                                             mean=[0.485 * 255, 0.456 * 255, 0.406 * 255],
                                             std=[0.229 * 255, 0.224 * 255, 0.225 * 255])
+
         self.coin = ops.CoinFlip(probability=0.5)
         print('DALI "{0}" variant'.format(dali_device))
-
     def define_graph(self):
         rng = self.coin()
         self.jpegs, self.labels = self.input(name="Reader")

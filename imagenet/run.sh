@@ -6,7 +6,7 @@ python -u main.py \
 --data_path /media/disk2/zyc/ImageNet2012 \
 --dataset imagenet \
 --weight_hist 0 \
---epoch 400 \
+--epoch 120 \
 --lr 0.1 \
 -b 256 \
 -bt 128 \
