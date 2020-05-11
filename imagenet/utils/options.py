@@ -204,4 +204,16 @@ parser.add_argument(
     action='store_true',
     help='use gpu to compute svd')
 
+parser.add_argument(
+    '--warm_up',
+    dest='warm_up',
+    action='store_true',
+    help='use warm up or not')
+
+parser.add_argument(
+    '--ba',
+    dest='ba',
+    action='store_true',
+    help='add bn to input')
+
 args = parser.parse_args()

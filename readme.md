@@ -49,6 +49,9 @@ python -u main.py \
 `--lr_decay_step` &emsp;step lr的更新点，eg: 30 60 90    
 `--a32` &emsp;使用w1a32    
 `--use_gpu` &emsp;使用gpu来计算svd   
+`--warm_up` &emsp;使用warm up  
+`--ba` &emsp;对input加bn操作 
+
 
 # 2. ImageNet
 ```bash
@@ -64,7 +67,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -u main.py \
 --Tmax 1e1 \
 -b 256 \
 -bt 128 \
---use_gpu \
+--ba
 ```  
 注：多卡时，pytorch1.3以下版本需在开头注明CUDA_VISIBLE_DEVICES=..., 1.3及以上不需要注明    
 默认使用DALI  

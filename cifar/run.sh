@@ -4,7 +4,6 @@ python -u main.py \
 --results_dir DIR \
 --data_path /home/xuzihan/data \
 --dataset cifar10 \
---weight_hist 0 \
 --epoch 400 \
 --lr 0.1 \
 -b 256 \
@@ -13,4 +12,6 @@ python -u main.py \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
---use_gpu
+--use_gpu \
+--warm_up \
+--mixup \

@@ -21,6 +21,7 @@ def main():
     global args, best_prec1, best_prec5, conv_modules
     best_prec1 = 0
     best_prec5 = 0
+    args.print_freq=int(256/args.batch_size*500)
 
     random.seed(args.seed)
     if args.evaluate:
@@ -152,7 +153,7 @@ def main():
                                 weight_decay=args.weight_decay)
     # optimizer = torch.optim.Adam([{'params':model.parameters(),'initial_lr':args.lr}],lr=args.lr) 
     if args.lr_type == 'cos':
-        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs, eta_min = 0, last_epoch=args.start_epoch)
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*5, eta_min = 0, last_epoch=args.start_epoch)
     elif args.lr_type == 'step':
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
     logging.info('scheduler: %s', lr_scheduler)
@@ -183,9 +184,9 @@ def main():
     for epoch in range(args.start_epoch+1, args.epochs):
         time_start = datetime.now()
         #*warm up
-        # if epoch <5: 
-        #     for param_group in optimizer.param_groups:
-        #         param_group['lr'] = args.lr * (epoch+1)/5
+        if args.warm_up and epoch <5:
+            for param_group in optimizer.param_groups:
+                param_group['lr'] = args.lr * (epoch+1)/5
         for param_group in optimizer.param_groups:
             logging.info('lr: %s', param_group['lr'])
 
@@ -202,7 +203,8 @@ def main():
             train_loader, model, criterion, epoch, optimizer,beta_distribution)
 
         #* adjust Lr
-        lr_scheduler.step()
+        if epoch>=4*args.warm_up:
+            lr_scheduler.step()
 
         # evaluate on validation set
         with torch.no_grad():
@@ -253,8 +255,8 @@ def main():
         if args.weight_hist and epoch%args.weight_hist==0:
             Tracking(model,epoch,save_path)
         
-        train_loader.reset()
-        val_loader.reset()
+        # train_loader.reset()
+        # val_loader.reset()
 
     logging.info('*'*50+'DONE'+'*'*50)
     logging.info('\n Best_Epoch: {0}\t'

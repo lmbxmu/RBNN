@@ -101,7 +101,6 @@ class ResNet(nn.Module):
         self.nonlinear2 = nn.Hardtanh(inplace=True)
         self.fc = nn.Linear(512 * block.expansion, num_classes)
         self.bn3 = nn.BatchNorm1d(num_classes)
-        # self.logsoftmax = nn.LogSoftmax(dim=1)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -110,7 +109,6 @@ class ResNet(nn.Module):
             elif isinstance(m, BinarizeConv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
-            
 
         if bypass_last_bn:
             for param in bypass_bn_weight_list:
@@ -157,7 +155,6 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.bn2(x)      
         x = self.fc(x)
-        # x = self.logsoftmax(x)
 
         return x
 
