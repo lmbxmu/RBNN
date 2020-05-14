@@ -144,7 +144,7 @@ def main():
                                 weight_decay=args.weight_decay)
     # optimizer = torch.optim.Adam([{'params':model.parameters(),'initial_lr':args.lr}],lr=args.lr) 
     if args.lr_type == 'cos':
-        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*5, eta_min = 0, last_epoch=args.start_epoch)
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch)
     elif args.lr_type == 'step':
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
     logging.info('scheduler: %s', lr_scheduler)
