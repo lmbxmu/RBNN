@@ -6,14 +6,14 @@ import torch.nn as nn
 import numpy
 import datetime
 
-def setup_logging(log_file='log.txt'):
+def setup_logging(log_file='log.txt',filemode='w'):
     """Setup logging configuration
     """
     logging.basicConfig(level=logging.DEBUG,
                         format="%(asctime)s - %(levelname)s - %(message)s",
                         datefmt="%Y-%m-%d %H:%M:%S",
                         filename=log_file,
-                        filemode='w')
+                        filemode=filemode)
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     formatter = logging.Formatter('%(message)s')

@@ -32,16 +32,18 @@ def main():
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    with open(os.path.join(save_path,'config.txt'), 'w') as args_file:
-        args_file.write(str(datetime.now())+'\n\n')
-        for args_n,args_v in args.__dict__.items():
-            args_v = '' if not args_v and not isinstance(args_v,int) else args_v
-            args_file.write(str(args_n)+':  '+str(args_v)+'\n')
+    if not args.resume:
+        with open(os.path.join(save_path,'config.txt'), 'w') as args_file:
+            args_file.write(str(datetime.now())+'\n\n')
+            for args_n,args_v in args.__dict__.items():
+                args_v = '' if not args_v and not isinstance(args_v,int) else args_v
+                args_file.write(str(args_n)+':  '+str(args_v)+'\n')
 
-    setup_logging(os.path.join(save_path, 'logger.log'))
-
-    logging.info("saving to %s", save_path)
-    logging.debug("run arguments: %s", args)
+        setup_logging(os.path.join(save_path, 'logger.log'))
+        logging.info("saving to %s", save_path)
+        logging.debug("run arguments: %s", args)
+    else: 
+        setup_logging(os.path.join(save_path, 'logger.log'), filemode='a')
     
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
     if 'cuda' in args.type:
@@ -50,8 +52,6 @@ def main():
     else:
         args.gpus = None
 
-    # create model
-    logging.info("creating model %s", args.model)
     if args.dataset=='tinyimagenet':
         num_classes=200
         model_zoo = 'models.'
@@ -69,7 +69,11 @@ def main():
         model = eval(model_zoo+args.model)(num_classes=num_classes).cuda()
     else: 
         model = nn.DataParallel(eval(model_zoo+args.model)(num_classes=num_classes))
-    logging.info("model structure: %s", model)
+    if not args.resume:
+        logging.info("creating model %s", args.model)
+        logging.info("model structure: %s", model)
+        num_parameters = sum([l.nelement() for l in model.parameters()])
+        logging.info("number of parameters: %d", num_parameters)
 
     # optionally resume from a checkpoint
     if args.evaluate:
@@ -77,17 +81,20 @@ def main():
             logging.error('invalid checkpoint: {}'.format(args.evaluate))
         else: 
             checkpoint = torch.load(args.evaluate)
+            if len(args.gpus)>1:
+                checkpoint['state_dict'] = dataset.add_module_fromdict(checkpoint['state_dict'])
             model.load_state_dict(checkpoint['state_dict'])
             logging.info("loaded checkpoint '%s' (epoch %s)",
                         args.evaluate, checkpoint['epoch'])
     elif args.resume:
-        checkpoint_file = args.resume
+        checkpoint_file = os.path.join(save_path,'checkpoint.pth.tar')
         if os.path.isdir(checkpoint_file):
             checkpoint_file = os.path.join(
                 checkpoint_file, 'model_best.pth.tar')
         if os.path.isfile(checkpoint_file):
-            logging.info("loading checkpoint '%s'", args.resume)
             checkpoint = torch.load(checkpoint_file)
+            if len(args.gpus)>1:
+                checkpoint['state_dict'] = dataset.add_module_fromdict(checkpoint['state_dict'])
             args.start_epoch = checkpoint['epoch'] - 1
             best_prec1 = checkpoint['best_prec1']
             best_prec5 = checkpoint['best_prec5']
@@ -97,16 +104,12 @@ def main():
         else:
             logging.error("no checkpoint found at '%s'", args.resume)
 
-    num_parameters = sum([l.nelement() for l in model.parameters()])
-    logging.info("number of parameters: %d", num_parameters)
-
     #* label smooth
     if args.labelsmooth:
         criterion = LSR().cuda()
     else: 
         criterion = nn.CrossEntropyLoss().cuda()
     criterion.type(args.type)
-    logging.info("criterion: %s", criterion)
     model.type(args.type)
 
     if args.evaluate:
@@ -156,7 +159,9 @@ def main():
         lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch)
     elif args.lr_type == 'step':
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
-    logging.info('scheduler: %s', lr_scheduler)
+    if not args.resume:
+        logging.info("criterion: %s", criterion)
+        logging.info('scheduler: %s', lr_scheduler)
 
     def cosin(i,T,emin=0,emax=0.01):
         "customized cos-lr"

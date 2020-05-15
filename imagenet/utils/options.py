@@ -21,10 +21,9 @@ parser.add_argument(
 
 parser.add_argument(
     '--resume',
-    default='',
-    type=str,
-    metavar='PATH',
-    help='path to latest checkpoint (default: none)')
+    dest='resume',
+    action='store_true',
+    help='resume to latest checkpoint')
 
 parser.add_argument(
     '-e',
