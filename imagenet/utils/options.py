@@ -97,7 +97,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--epochs',
-    default=400,
+    default=120,
     type=int,
     metavar='N',
     help='number of total epochs to run')

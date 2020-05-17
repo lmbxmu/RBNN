@@ -4,7 +4,7 @@ python -u main.py \
 --results_dir DIR \
 --data_path /home/xuzihan/data \
 --dataset cifar10 \
---epoch 400 \
+--epochs 400 \
 --lr 0.1 \
 -b 256 \
 -bt 128 \

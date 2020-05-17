@@ -8,7 +8,7 @@ python -u main.py \
 --results_dir ./ \
 --data_path /data \
 --dataset cifar10 \
---epoch 400 \
+--epochs 400 \
 --lr 0.1 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
@@ -61,7 +61,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -u main.py \
 --results_dir ./ \
 --data_path /data \
 --dataset imagenet \
---epoch 120 \
+--epochs 120 \
 --lr 0.1 \
 --Tmin 1e-2 \
 --Tmax 1e1 \

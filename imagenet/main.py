@@ -154,18 +154,21 @@ def main():
     optimizer = torch.optim.SGD([{'params':model.parameters(),'initial_lr':args.lr}], args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
+
+    def cosin(i,T,emin=0,emax=0.01):
+        "customized cos-lr"
+        return emin+(emax-emin)/2 * (1+np.cos(i*np.pi/T))
+    if args.resume:
+        for param_group in optimizer.param_groups:
+            param_group['lr'] = cosin(args.start_epoch-args.warm_up*2, args.epochs-args.warm_up*4,0, args.lr)
     # optimizer = torch.optim.Adam([{'params':model.parameters(),'initial_lr':args.lr}],lr=args.lr) 
     if args.lr_type == 'cos':
-        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch)
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch-args.warm_up*2)
     elif args.lr_type == 'step':
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
     if not args.resume:
         logging.info("criterion: %s", criterion)
         logging.info('scheduler: %s', lr_scheduler)
-
-    def cosin(i,T,emin=0,emax=0.01):
-        "customized cos-lr"
-        return emin+(emax-emin)/2 * (1+np.cos(i*np.pi/T))
 
     def Log_UP(epoch):
         "compute t&k in back-propagation"

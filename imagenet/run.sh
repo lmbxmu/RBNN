@@ -4,7 +4,7 @@ python -u main.py \
 --results_dir DIR \
 --data_path /home/sda1/data/ImageNet2012 \
 --dataset imagenet \
---epoch 120 \
+--epochs 120 \
 --lr 0.1 \
 -b 64 \
 -bt 128 \
