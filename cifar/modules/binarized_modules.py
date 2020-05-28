@@ -25,8 +25,7 @@ class BinarizeConv2d(nn.Conv2d):
 
         sw = w.abs().view(w.size(0), -1).mean(-1).float().view(w.size(0), 1, 1).detach()
         self.alpha=nn.Parameter(sw.cuda(),requires_grad=True)
-        # self.rand = torch.rand(sw.shape)
-        self.rotate = nn.Parameter(torch.rand(w.size(0),1,1,1).cuda()*np.pi/2,requires_grad=True)
+        self.rotate = nn.Parameter(torch.ones(w.size(0),1,1,1).cuda()*np.pi/2,requires_grad=True)
         self.Rotate = torch.zeros(1)
 
     def forward(self, input):
