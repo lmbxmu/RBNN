@@ -4,10 +4,9 @@ python -u main.py \
 --model resnet18_1w1a \
 --results_dir ./ \
 --save result \
---data_path /media/disk2/zyc/ImageNet2012 \
+--data_path DATA_PATH \
 --dataset imagenet \
---weight_hist 0 \
---epoch 400 \
+--epoch 1000 \
 --lr 0.1 \
 -b 256 \
 -bt 128 \

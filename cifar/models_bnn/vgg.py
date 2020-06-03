@@ -7,10 +7,7 @@ import math
 from modules import *
 
 
-__all__ = [
-    'VGG', 'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn',
-    'vgg19_bn', 'vgg19',  'vgg_small_1w1a'
-]
+__all__ = ['vgg_small_1w1a']
 
 
 model_urls = {

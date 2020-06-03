@@ -2,16 +2,14 @@ python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
 --results_dir DIR \
---data_path /home/xuzihan/data \
+--data_path DATA_PATH \
 --dataset cifar10 \
---epochs 400 \
+--epochs 1000 \
 --lr 0.1 \
 -b 256 \
 -bt 128 \
---rotation_update 1 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
---use_gpu \
 --warm_up \
 --mixup \

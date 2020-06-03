@@ -71,7 +71,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--lr', 
-    default=0.01, 
+    default=0.1, 
     type=float, 
     help='learning rate')
 
@@ -146,19 +146,6 @@ parser.add_argument(
     help='use mixup or not')
 
 parser.add_argument(
-    '--labelsmooth',
-    dest='labelsmooth',
-    action='store_true',
-    help='use labelsmooth or not')
-
-parser.add_argument(
-    '--weight_hist',
-    default=0,
-    type=int,
-    metavar='N',
-    help='frequency of plotting histogram of weights, set -1 to disable')
-
-parser.add_argument(
     '--rotation_update',
     default=1,
     type=int,
@@ -198,21 +185,9 @@ parser.add_argument(
     help='w1a32')
 
 parser.add_argument(
-    '--use_gpu',
-    dest='use_gpu',
-    action='store_true',
-    help='use gpu to compute svd')
-
-parser.add_argument(
     '--warm_up',
     dest='warm_up',
     action='store_true',
     help='use warm up or not')
-
-parser.add_argument(
-    '--ba',
-    dest='ba',
-    action='store_true',
-    help='add bn to input')
 
 args = parser.parse_args()

@@ -6,11 +6,11 @@ import torch.nn.functional as F
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 
-def load_data(dataset='cifar10',data_path='/home/xuzihan/data',batch_size = 256,batch_size_test=256,num_workers=0):
+def load_data(type='both',dataset='cifar10',data_path='/data',batch_size = 256,batch_size_test=256,num_workers=0):
     # load data
     param = {'cifar10':{'name':datasets.CIFAR10,'size':32,'normalize':[[0.485, 0.456, 0.406], [0.229, 0.224, 0.225]]},
              'cifar100':{'name':datasets.CIFAR100,'size':32,'normalize':[(0.507, 0.487, 0.441), (0.267, 0.256, 0.276)]},
-             'mnist':{'name':datasets.MNIST,'size':96,'normalize':[(0.5,0.5,0.5),(0.5,0.5,0.5)]},
+             'mnist':{'name':datasets.MNIST,'size':32,'normalize':[(0.5,0.5,0.5),(0.5,0.5,0.5)]},
              'tinyimagenet':{'name':datasets.ImageFolder,'size':224,'normalize':[(0.4802, 0.4481, 0.3975), (0.2302, 0.2265, 0.2262)]}}
     data = param[dataset]
 
@@ -43,7 +43,6 @@ def load_data(dataset='cifar10',data_path='/home/xuzihan/data',batch_size = 256,
 
     else:
         transform1 = transforms.Compose([
-            # transforms.Resize(data['size']),
             transforms.RandomCrop(data['size'],padding=4),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
@@ -51,7 +50,6 @@ def load_data(dataset='cifar10',data_path='/home/xuzihan/data',batch_size = 256,
         ])
 
         transform2 = transforms.Compose([
-            #transforms.Resize(data['size']),
             transforms.ToTensor(),
             transforms.Normalize(*data['normalize']),
         ])
@@ -77,7 +75,12 @@ def load_data(dataset='cifar10',data_path='/home/xuzihan/data',batch_size = 256,
             shuffle=False,
             num_workers=num_workers,
             pin_memory=True)
-        return trainloader, testloader
+        if type=='both':
+            return trainloader, testloader
+        elif type=='train':
+            return trainloader
+        elif type=='val':
+            return testloader
 
 def delete_module_fromdict(statedict):
     from collections import OrderedDict

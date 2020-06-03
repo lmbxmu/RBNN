@@ -21,10 +21,9 @@ parser.add_argument(
 
 parser.add_argument(
     '--resume',
-    default='',
-    type=str,
-    metavar='PATH',
-    help='path to latest checkpoint (default: none)')
+    dest='resume',
+    action='store_true',
+    help='resume to latest checkpoint')
 
 parser.add_argument(
     '-e',
@@ -72,7 +71,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--lr', 
-    default=0.01, 
+    default=0.1, 
     type=float, 
     help='learning rate')
 
@@ -98,7 +97,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--epochs',
-    default=400,
+    default=1000,
     type=int,
     metavar='N',
     help='number of total epochs to run')
@@ -147,19 +146,6 @@ parser.add_argument(
     help='use mixup or not')
 
 parser.add_argument(
-    '--labelsmooth',
-    dest='labelsmooth',
-    action='store_true',
-    help='use labelsmooth or not')
-
-parser.add_argument(
-    '--weight_hist',
-    default=0,
-    type=int,
-    metavar='N',
-    help='frequency of plotting histogram of weights, set -1 to disable')
-
-parser.add_argument(
     '--rotation_update',
     default=1,
     type=int,
@@ -197,12 +183,6 @@ parser.add_argument(
     dest='a32',
     action='store_true',
     help='w1a32')
-
-parser.add_argument(
-    '--use_gpu',
-    dest='use_gpu',
-    action='store_true',
-    help='use gpu to compute svd')
 
 parser.add_argument(
     '--warm_up',

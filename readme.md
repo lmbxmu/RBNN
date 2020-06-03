@@ -1,133 +1,114 @@
-torch.\_\_version\_\_=1.3.0  
+Pytorch implementation of **Rotated Binary Neural Network**  
+torch.\_\_version\_\_=1.1.0 
 
-# 1. Cifar
+# Cifar
 ```bash
 python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
---results_dir ./ \
---data_path /data \
+--results_dir ./result \
+--data_path ./data \
 --dataset cifar10 \
---epochs 400 \
+--epochs 1000 \
 --lr 0.1 \
---Tmin 1e-2 \
---Tmax 1e1 \
 -b 256 \
 -bt 128 \
---use_gpu \
+--Tmin 1e-2 \
+--Tmax 1e1 \
+--lr_type cos \
+--warm_up \
+--mixup \
 ```
-`--results_dir` &emsp;保存目录  
-`--save` &emsp;保存文件夹名  
-`--resume` &emsp;加载ckpt  
-`--evaluate / -e`  &emsp;evaluate  
-`--model / -a` &emsp;选择模型，  
-&emsp;&emsp;默认resnet20_1w1a,可选择  
-&emsp;&emsp; mobilenetv1_bireal_025_1w1a  
-&emsp;&emsp; mobilenetv1_bireal_05_1w1a  
-&emsp;&emsp; mobilenetv1_bireal_025_noGroup_1w1a  
-&emsp;&emsp; mobilenetv1_bireal_05_noGroup_1w1a  
-&emsp;&emsp; vgg_small_1w1a  
-`--dataset` &emsp;选择数据集，默认cifar10，可选cifar100 / tinyimagenet  
-`--data_path` &emsp;数据集路径  
-`--gpus` &emsp;eg: 0,1  
-`--lr` &emsp;初始学习率，默认0.1  
-`--weight_decay` &emsp;默认1e-4  
-`--momentum` &emsp;默认0.9  
-`--workers` &emsp;data loading workers，默认8  
-`--epochs` &emsp;epoch数，默认400  
-`--batch_size / -b` &emsp;batch size，默认256   
-`--batch_size_test / -bt` &emsp;evaluate batch size, 默认128  
-`--print_freq` &emsp;打印频率，默认100  
-`--time_estimate` &emsp;程序结束时间估计，设为0取消，默认1 开启  
-`--mixup` &emsp;使用mixup  
-`--labelsmooth` &emsp;使用label smooth  
-`--weight_hist` &emsp;输出weight的直方图，默认0，设为n表示每隔n个epoch输出一次   
-`--rotation_update` &emsp;每n个epoch更新一次旋转矩阵，默认2   
-`--Tmin` &emsp;梯度近似函数参数T的最小值，默认1e-2  
-`--Tmax` &emsp;梯度近似函数参数T的最大值，默认1e1  
-`--lr_type` &emsp;lr_scheduler类型，默认cos，可选step  
-`--lr_decay_step` &emsp;step lr的更新点，eg: 30 60 90    
-`--a32` &emsp;使用w1a32    
-`--use_gpu` &emsp;使用gpu来计算svd   
-`--warm_up` &emsp;使用warm up  
-`--ba` &emsp;对input加bn操作 
+`--results_dir` &emsp;Path to save directory  
+`--save` &emsp;Path to save folder    
+`--resume` &emsp;Load checkpoint    
+`--evaluate / -e`  &emsp;Evaluate  
+`--model / -a` &emsp;Choose model   
+&emsp;&emsp; default:&emsp;resnet20_1w1a,   
+&emsp;&emsp; options:&emsp;resnet18_1w1a;&emsp;vgg_small_1w1a       
+`--dataset` &emsp;Choose dataset，default: cifar10，options: cifar100 / tinyimagenet / imagenet  
+`--data_path` &emsp;Path to dataset    
+`--gpus` &emsp;Specify gpus, e.g. 0,1  
+`--lr` &emsp;Learning rate，default: 0.1  
+`--weight_decay` &emsp;Weight decay, default: 1e-4  
+`--momentum` &emsp;Momentum, default: 0.9  
+`--workers` &emsp;Data loading workers，default: 8  
+`--epochs` &emsp;Number of training epochs，default:1000  
+`--batch_size / -b` &emsp;Batch size，default: 256   
+`--batch_size_test / -bt` &emsp;Evaluating batch size, default: 128  
+`--print_freq` &emsp;Print frequency，default: 100  
+`--time_estimate` &emsp;Estimate finish time of the program，set to 0 to disable，default: 1     
+`--mixup` &emsp;Use mixup loss    
+`--rotation_update` &emsp;Update rotaion matrix every n epoch，default: 1   
+`--Tmin` &emsp;The minimum of param T in gradient approximation function，default: 1e-2  
+`--Tmax` &emsp;The maximum of param T in gradient approximation function，default: 1e1  
+`--lr_type` &emsp;Type of learning rate scheduler，default: cos (which means CosineAnnealingLR)，options: step (which means MultiStepLR)  
+`--lr_decay_step` &emsp;If choose MultiStepLR, set milestones，eg: 30 60 90    
+`--a32` &emsp;Don't binarize activation, namely w1a32    
+`--warm_up` &emsp;Use warm up  
 
+## Implementation details on Cifar10
+args | resnet20_1w1a | resnet18_1w1a | vgg_small_1w1a
+-|:-:|:-:|:-:
+lr | 0.1 | 0.1 | 0.1
+weight_decay | 1e-4 | 1e-4 | 1e-4 
+momentum | 0.9 | 0.9 | 0.9
+epochs | 1000 | 1000 | 1000
+batch_size | 256 | 256 | 256
+batch_size_test | 128 | 128 | 128
+Tmin | 1e-2 | 1e-2 | 1e-2 
+Tmax | 1e1 | 1e1 | 1e1
+lr_type | cos | cos | cos
+rotation_update | 1 | 1 | 1
+mix_up | True | True | True
+warm_up | True | True | True
 
-# 2. ImageNet
+Note: Training for 400 epochs on cifar10 can also achieve impressive results, but training for 1000 epochs performs better, so we set `epochs` to 1000 as default.
+
+# ImageNet
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 python -u main.py \
---gpus 0,1 \
+python -u main.py \
+--gpus 0,1,2,3 \
 --model resnet18_1w1a \
---results_dir ./ \
---data_path /data \
+--results_dir ./result \
+--data_path ./data \
 --dataset imagenet \
 --epochs 120 \
 --lr 0.1 \
---Tmin 1e-2 \
---Tmax 1e1 \
 -b 256 \
 -bt 128 \
---ba
-```  
-注：多卡时，pytorch1.3以下版本需在开头注明CUDA_VISIBLE_DEVICES=..., 1.3及以上不需要注明    
-默认使用DALI  
-其他参数和cifar10相同  
-`--model / -a` &emsp;选择模型，  
-&emsp;&emsp;默认resnet18_1w1a,可选择  
-&emsp;&emsp; resnet34_1w1a  
-&emsp;&emsp; mobilenetv1等尚未添加   
-`--print_freq` &emsp;打印频率，默认500    
-
-旋转操作嵌入到卷积核内，在文件`modules-binarized_modules`里，  
-```python
-V = self.R1.t()@X.detach()@self.R2
-B = torch.sign(V)
-#* update R1
-D1=sum([Bi@(self.R2.t())@(Xi.t()) for (Bi,Xi) in zip(B,X.detach())]).cpu()
-U1,S1,V1=torch.svd(D1)
-self.R1=(V1@(U1.t())).to(X.device)
-#* update R2
-D2=sum([(Xi.t())@self.R1@Bi for (Xi,Bi) in zip(X.detach(),B)]).cpu()
-U2,S2,V2=torch.svd(D2)
-self.R2=(U2@(V2.t())).to(X.device)
+--Tmin 1e-2 \
+--Tmax 1e1 \
+--lr_type cos \
+--warm_up \
+--mixup \
+```   
+Other args are the same as those in CIFAR  
+`--model / -a` &emsp;Choose model，  
+&emsp;&emsp;default: resnet18_1w1a.   
+&emsp;&emsp;options: resnet34_1w1a     
+  
+Imagenet DataLoaders are implemented with [nvidia-dali](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html), if you have never used dali before, you only need to install nvidia-dali package and the version of nvidia-dali should be >= 0.12
 ```
-这一部分将svd计算转移到cpu上，将计算后的R1，R2重新转移到GPU上，服务器上实测放在cpu上更快，但是GPU整体利用率很低    
+#for cuda9.0
+pip install --extra-index-url https://developer.download.nvidia.com/compute/redist/cuda/9.0 nvidia-dali
+#for cuda10.0
+pip install --extra-index-url https://developer.download.nvidia.com/compute/redist/cuda/10.0 nvidia-dali
+```
+More details and documents can be found [here](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html#)
 
-可调参数：  
-Bi-Realnet中参数设置： 
-1. Resnet18
-* SGD
-* momentum 0.9
-* weight_decay 0
-* lr 0.01
-* batch_size=128 (cifar上发现小batchsize效果更好)
-* epochs 20 (没写错)
-* lr_type step  
-* lr_decay_step [10,15]
-1. Resnet34 
-* SGD
-* momentum 0.9
-* weight_decay 0
-* lr 0.08
-* batch_size=1024  
-* epochs 40 (没写错)
-* lr_type step  
-* lr_decay_step [20,30]
-论文中提到训练完后，固定weight到-1，1，单独对BatchNorm层再训一个epoch（这部分代码还没写）
-
-ReActNet中参数设置：   
-backbone是修改的mobilenetV1-0.5  
-两阶段训练方法，用到蒸馏(Training binary neural networks with real-to- binary convolutions.)  
-* Adam (代码里用的sgd，在cifar上发现adam效果不如sgd)  
-* epoch 120 
-* batch_size 256  
-* lr 5e-4 (没写错)
-* linear lr decay  
-* weight_decay 第一阶段1e-5,第二阶段0
-* 用到了Distributional Loss,替换原始CE loss（公式上看着像无教师蒸馏）
-
---weight_decay 默认1e-4，BI-Real中设为0  
---Tmin/Tmax 默认1e-2 / 1e1 , 可调1e-3/1e1 ; 1e-0.5,1e1等  
---batchsize 默认256 ,可调128  
---rotation_update 默认2，可调大到5/10等  
-
+## Implementation details on ImageNet
+args | resnet18_1w1a | resnet34_1w1a 
+-|:-:|:-:
+lr | 0.1 | 0.1 
+weight_decay | 1e-4 | 1e-4 
+momentum | 0.9 | 0.9 
+epochs | 120 | 120
+batch_size | 256 | 256 
+batch_size_test | 128 | 128 
+Tmin | 1e-2 | 1e-2 
+Tmax | 1e1 | 1e1 
+lr_type | cos | cos 
+rotation_update | 1 | 1 
+mix_up | True | True 
+warm_up | True | True 

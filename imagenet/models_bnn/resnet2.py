@@ -13,7 +13,7 @@ import torch.nn.init as init
 from modules import *
 
 
-__all__ =['resnet18A_1w1a','resnet18B_1w1a','resnet18C_1w1a','resnet18D_1w1a']
+__all__ =['resnet18A_1w1a','resnet18B_1w1a','resnet18C_1w1a','resnet18_1w1a']
 
 class BasicBlock(nn.Module):
     expansion = 1
@@ -103,17 +103,17 @@ class ResNet(nn.Module):
         return out 
 
 
-def resnet18A_1w1a(num_classes=10):
-    return ResNet(BasicBlock, [2,2,2,2],[32,32,64,128],num_classes=num_classes)
+def resnet18A_1w1a(**kwargs):
+    return ResNet(BasicBlock, [2,2,2,2],[32,32,64,128],**kwargs)
 
-def resnet18B_1w1a(num_classes=10):
-    return ResNet(BasicBlock, [2,2,2,2],[32,64,128,256],num_classes=num_classes)
+def resnet18B_1w1a(**kwargs):
+    return ResNet(BasicBlock, [2,2,2,2],[32,64,128,256],**kwargs)
 
-def resnet18C_1w1a(num_classes=10):
-    return ResNet(BasicBlock, [2,2,2,2],[64,64,128,256],num_classes=num_classes)
+def resnet18C_1w1a(**kwargs):
+    return ResNet(BasicBlock, [2,2,2,2],[64,64,128,256],**kwargs)
 
-def resnet18D_1w1a(num_classes=10):
-    return ResNet(BasicBlock, [2,2,2,2],[64,128,256,512],num_classes=num_classes)
+def resnet18_1w1a(**kwargs):
+    return ResNet(BasicBlock, [2,2,2,2],[64,128,256,512],**kwargs)
 
 def ResNet34():
     return ResNet(BasicBlock, [3,4,6,3])
@@ -129,7 +129,7 @@ def ResNet152():
 
 
 def test():
-    net = resnet18A_1w1a()
+    net = resnet18_1w1a()
     y = net(torch.randn(1,3,32,32))
     print(y.size())
 

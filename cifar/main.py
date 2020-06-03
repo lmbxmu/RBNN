@@ -24,22 +24,22 @@ def main():
     random.seed(args.seed)
     if args.evaluate:
         args.results_dir = '/tmp'
-    # if args.save is '':
-    #     args.save = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     save_path = os.path.join(args.results_dir, args.save)
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    with open(os.path.join(save_path,'config.txt'), 'w') as args_file:
-        args_file.write(str(datetime.now())+'\n\n')
-        for args_n,args_v in args.__dict__.items():
-            args_v = '' if not args_v and not isinstance(args_v,int) else args_v
-            args_file.write(str(args_n)+':  '+str(args_v)+'\n')
+    if not args.resume:
+        with open(os.path.join(save_path,'config.txt'), 'w') as args_file:
+            args_file.write(str(datetime.now())+'\n\n')
+            for args_n,args_v in args.__dict__.items():
+                args_v = '' if not args_v and not isinstance(args_v,int) else args_v
+                args_file.write(str(args_n)+':  '+str(args_v)+'\n')
 
-    setup_logging(os.path.join(save_path, 'logger.log'))
-
-    logging.info("saving to %s", save_path)
-    logging.debug("run arguments: %s", args)
+        setup_logging(os.path.join(save_path, 'logger.log'))
+        logging.info("saving to %s", save_path)
+        logging.debug("run arguments: %s", args)
+    else: 
+        setup_logging(os.path.join(save_path, 'logger.log'), filemode='a')
     
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpus
     if 'cuda' in args.type:
@@ -47,10 +47,7 @@ def main():
         cudnn.benchmark = True
     else:
         args.gpus = None
-    # device = torch.device(f"cuda:{args.gpus[0]}") if torch.cuda.is_available() else 'cpu'
 
-    # create model
-    logging.info("creating model %s", args.model)
     if args.dataset=='tinyimagenet':
         num_classes=200
         model_zoo = 'models.'
@@ -68,25 +65,32 @@ def main():
         model = eval(model_zoo+args.model)(num_classes=num_classes).cuda()
     else: 
         model = nn.DataParallel(eval(model_zoo+args.model)(num_classes=num_classes))
-    logging.info("model structure: %s", model)
+    if not args.resume:
+        logging.info("creating model %s", args.model)
+        logging.info("model structure: %s", model)
+        num_parameters = sum([l.nelement() for l in model.parameters()])
+        logging.info("number of parameters: %d", num_parameters)
 
-    # optionally resume from a checkpoint
+    # evaluate
     if args.evaluate:
         if not os.path.isfile(args.evaluate):
             logging.error('invalid checkpoint: {}'.format(args.evaluate))
         else: 
             checkpoint = torch.load(args.evaluate)
+            if len(args.gpus)>1:
+                checkpoint['state_dict'] = dataset.add_module_fromdict(checkpoint['state_dict'])
             model.load_state_dict(checkpoint['state_dict'])
             logging.info("loaded checkpoint '%s' (epoch %s)",
                         args.evaluate, checkpoint['epoch'])
     elif args.resume:
-        checkpoint_file = args.resume
+        checkpoint_file = os.path.join(save_path,'checkpoint.pth.tar')
         if os.path.isdir(checkpoint_file):
             checkpoint_file = os.path.join(
                 checkpoint_file, 'model_best.pth.tar')
         if os.path.isfile(checkpoint_file):
-            logging.info("loading checkpoint '%s'", args.resume)
             checkpoint = torch.load(checkpoint_file)
+            if len(args.gpus)>1:
+                checkpoint['state_dict'] = dataset.add_module_fromdict(checkpoint['state_dict'])
             args.start_epoch = checkpoint['epoch'] - 1
             best_prec1 = checkpoint['best_prec1']
             model.load_state_dict(checkpoint['state_dict'])
@@ -95,16 +99,8 @@ def main():
         else:
             logging.error("no checkpoint found at '%s'", args.resume)
 
-    num_parameters = sum([l.nelement() for l in model.parameters()])
-    logging.info("number of parameters: %d", num_parameters)
-
-    #* label smooth
-    if args.labelsmooth:
-        criterion = LSR().cuda()
-    else: 
-        criterion = nn.CrossEntropyLoss().cuda()
+    criterion = nn.CrossEntropyLoss().cuda()
     criterion.type(args.type)
-    logging.info("criterion: %s", criterion)
     model.type(args.type)
 
     if args.evaluate:
@@ -126,11 +122,17 @@ def main():
         train_loader = dataset.get_imagenet(type='train',
                                     image_dir=args.data_path,
                                     batch_size=args.batch_size,
-                                    num_threads=args.workers,)
+                                    num_threads=args.workers,
+                                    crop=224,
+                                    device_id='cuda:0',
+                                    num_gpus=1)
         val_loader = dataset.get_imagenet(type='val',
                                     image_dir=args.data_path,
                                     batch_size=args.batch_size_test,
-                                    num_threads=args.workers,)
+                                    num_threads=args.workers,
+                                    crop=224,
+                                    device_id='cuda:0',
+                                    num_gpus=1)
     else: 
         train_loader, val_loader = dataset.load_data(
                                     dataset=args.dataset, 
@@ -142,16 +144,21 @@ def main():
     optimizer = torch.optim.SGD([{'params':model.parameters(),'initial_lr':args.lr}], args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
-    # optimizer = torch.optim.Adam([{'params':model.parameters(),'initial_lr':args.lr}],lr=args.lr) 
-    if args.lr_type == 'cos':
-        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch)
-    elif args.lr_type == 'step':
-        lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
-    logging.info('scheduler: %s', lr_scheduler)
 
     def cosin(i,T,emin=0,emax=0.01):
         "customized cos-lr"
         return emin+(emax-emin)/2 * (1+np.cos(i*np.pi/T))
+
+    if args.resume:
+        for param_group in optimizer.param_groups:
+            param_group['lr'] = cosin(args.start_epoch-args.warm_up*4, args.epochs-args.warm_up*4,0, args.lr)
+    if args.lr_type == 'cos':
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch)
+    elif args.lr_type == 'step':
+        lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
+    if not args.resume:
+        logging.info("criterion: %s", criterion)
+        logging.info('scheduler: %s', lr_scheduler)
 
     def Log_UP(epoch):
         "compute t&k in back-propagation"
@@ -175,7 +182,7 @@ def main():
     for epoch in range(args.start_epoch+1, args.epochs):
         time_start = datetime.now()
         #*warm up
-        if args.warm_up and epoch <5: 
+        if args.warm_up and epoch <5:
             for param_group in optimizer.param_groups:
                 param_group['lr'] = args.lr * (epoch+1)/5
         for param_group in optimizer.param_groups:
@@ -189,7 +196,7 @@ def main():
                 module.t = t.cuda()
         for module in conv_modules:
             module.epoch=epoch
-        # train for one epoch
+        # train
         train_loss, train_prec1, train_prec5 = train(
             train_loader, model, criterion, epoch, optimizer,beta_distribution)
 
@@ -197,21 +204,21 @@ def main():
         if epoch>=4*args.warm_up:
             lr_scheduler.step()
 
-        # evaluate on validation set
+        # evaluate 
         with torch.no_grad():
             for module in conv_modules:
                 module.epoch=-1
             val_loss, val_prec1, val_prec5 = validate(
                 val_loader, model, criterion, epoch)
 
-        # remember best prec@1 and save checkpoint
+        # remember best prec
         is_best = val_prec1 > best_prec1
         if is_best:
             best_prec1 = max(val_prec1, best_prec1)
             best_epoch = epoch
             best_loss = val_loss
 
-        # save model checkpoint every few epochs
+        # save model
         if epoch % 1 == 0:
             model_state_dict = model.module.state_dict() if len(args.gpus) > 1 else model.state_dict()
             model_parameters = model.module.parameters() if len(args.gpus) > 1 else model.parameters()
@@ -239,11 +246,7 @@ def main():
                      .format(epoch + 1, train_loss=train_loss, val_loss=val_loss,
                              train_prec1=train_prec1, val_prec1=val_prec1,
                              train_prec5=train_prec5, val_prec5=val_prec5))
-      
-        #* Tracking weights and plot histograms of weights 
-        if args.weight_hist and epoch%args.weight_hist==0:
-            Tracking(model,epoch,save_path)
-    
+
 
     logging.info('*'*50+'DONE'+'*'*50)
     logging.info('\n Best_Epoch: {0}\t'
@@ -266,8 +269,8 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
             for module in conv_modules:
                 module.epoch=-1
         if args.gpus is not None:
-            inputs = inputs.cuda()
-            target = target.cuda()
+            inputs = inputs.cuda(non_blocking=True)
+            target = target.cuda(non_blocking=True)
         input_var = Variable(inputs.type(args.type))
         target_var = Variable(target)
         
@@ -284,17 +287,6 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
             # compute output
             output = model(input_var)
             loss = criterion(output, target_var)
-
-        #* L1-norm
-        # L1_norm = 0
-        # T = 1e-4
-        # conv_parameters = []
-        # for no,(name,module) in model.named_modules():
-        #     if no>1 and isinstance(module,nn.Conv2d): # all conv layers except the first one
-        #         conv_parameters.append(module.Rweight)
-        # for param in conv_parameters:
-        #     L1_norm += torch.sum(torch.abs(torch.abs(param)-1))
-        # loss = loss + T * L1_norm
 
         if type(output) is list:
             output = output[0]
@@ -339,56 +331,10 @@ def train(data_loader, model, criterion, epoch, optimizer,beta_distribution):
 
 
 def validate(data_loader, model, criterion, epoch):
-    # switch to evaluate mode
+    # switch to eval mode
     model.eval()
     return forward(data_loader, model, criterion, epoch,
                    training=False, optimizer=None)
-
-def Tracking(model,epoch,save_path=None):
-    """
-    plot histograms of weights
-    """
-    import matplotlib as mpl
-    mpl.use('Agg')
-    import matplotlib.pyplot as plt
-    conv = []
-    for name,module in model.named_modules():
-        if isinstance(module,nn.Conv2d):
-            add=module.weight.cuda().flatten().detach()
-            conv.append(add.cpu().numpy())
-    img_size = int(np.ceil(len(conv)/5))
-    i = 1
-    fig=plt.figure(figsize=(16, 16*img_size/5))
-    fig.tight_layout(pad=0.1, w_pad=3.0, h_pad=3.0)
-    for w in conv:
-        plt.subplot(img_size,5,i)
-        plt.hist(w,bins=100)
-        i+=1
-    image_path=os.path.join(save_path, 'images')
-    if not os.path.exists(image_path):
-        os.mkdir(image_path)
-    path = os.path.join(image_path,str(epoch)+'.png')
-    plt.savefig(path, bbi=300,bbox_inches = 'tight')
-    plt.close()
-
-    Rconv = []
-    for name,module in model.named_modules():
-        if isinstance(module,nn.Conv2d):
-            add=getattr(module,'Rweight',module.weight).cuda().flatten().detach()
-            Rconv.append(add.cpu().numpy())
-    i = 1
-    fig=plt.figure(figsize=(16, 16*img_size/5))
-    fig.tight_layout(pad=0.1, w_pad=3.0, h_pad=3.0)
-    for w in Rconv:
-        plt.subplot(img_size,5,i)
-        plt.hist(w,bins=100)
-        i+=1
-    image2_path=os.path.join(save_path, 'images2')
-    if not os.path.exists(image2_path):
-        os.mkdir(image2_path)
-    path = os.path.join(image2_path,str(epoch)+'.png')
-    plt.savefig(path, bbi=300,bbox_inches = 'tight')
-    plt.close()
 
 
 if __name__ == '__main__':

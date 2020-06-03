@@ -26,8 +26,6 @@ def main():
     random.seed(args.seed)
     if args.evaluate:
         args.results_dir = '/tmp'
-    # if args.save is '':
-    #     args.save = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     save_path = os.path.join(args.results_dir, args.save)
     if not os.path.exists(save_path):
         os.makedirs(save_path)
@@ -75,7 +73,7 @@ def main():
         num_parameters = sum([l.nelement() for l in model.parameters()])
         logging.info("number of parameters: %d", num_parameters)
 
-    # optionally resume from a checkpoint
+    # evaluate
     if args.evaluate:
         if not os.path.isfile(args.evaluate):
             logging.error('invalid checkpoint: {}'.format(args.evaluate))
@@ -104,11 +102,7 @@ def main():
         else:
             logging.error("no checkpoint found at '%s'", args.resume)
 
-    #* label smooth
-    if args.labelsmooth:
-        criterion = LSR().cuda()
-    else: 
-        criterion = nn.CrossEntropyLoss().cuda()
+    criterion = nn.CrossEntropyLoss().cuda()
     criterion.type(args.type)
     model.type(args.type)
 
@@ -158,12 +152,12 @@ def main():
     def cosin(i,T,emin=0,emax=0.01):
         "customized cos-lr"
         return emin+(emax-emin)/2 * (1+np.cos(i*np.pi/T))
+
     if args.resume:
         for param_group in optimizer.param_groups:
-            param_group['lr'] = cosin(args.start_epoch-args.warm_up*2, args.epochs-args.warm_up*4,0, args.lr)
-    # optimizer = torch.optim.Adam([{'params':model.parameters(),'initial_lr':args.lr}],lr=args.lr) 
+            param_group['lr'] = cosin(args.start_epoch-args.warm_up*4, args.epochs-args.warm_up*4,0, args.lr)
     if args.lr_type == 'cos':
-        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch-args.warm_up*2)
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch-args.warm_up*4)
     elif args.lr_type == 'step':
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
     if not args.resume:
@@ -206,7 +200,7 @@ def main():
                 module.t = t.cuda()
         for module in conv_modules:
             module.epoch=epoch
-        # train for one epoch
+        # train
         train_loss, train_prec1, train_prec5 = train(
             train_loader, model, criterion, epoch, optimizer,beta_distribution)
 
@@ -214,14 +208,14 @@ def main():
         if epoch>=4*args.warm_up:
             lr_scheduler.step()
 
-        # evaluate on validation set
+        # evaluate 
         with torch.no_grad():
             for module in conv_modules:
                 module.epoch=-1
             val_loss, val_prec1, val_prec5 = validate(
                 val_loader, model, criterion, epoch)
 
-        # remember best prec@1 and save checkpoint
+        # remember best prec
         is_best = val_prec1 > best_prec1
         if is_best:
             best_prec1 = max(val_prec1, best_prec1)
@@ -229,7 +223,7 @@ def main():
             best_epoch = epoch
             best_loss = val_loss
 
-        # save model checkpoint every few epochs
+        # save model
         if epoch % 1 == 0:
             model_state_dict = model.module.state_dict() if len(args.gpus) > 1 else model.state_dict()
             model_parameters = model.module.parameters() if len(args.gpus) > 1 else model.parameters()
@@ -259,12 +253,6 @@ def main():
                              train_prec1=train_prec1, val_prec1=val_prec1,
                              train_prec5=train_prec5, val_prec5=val_prec5))
 
-        #* Tracking weights and plot histograms of weights 
-        if args.weight_hist and epoch%args.weight_hist==0:
-            Tracking(model,epoch,save_path)
-        
-        # train_loader.reset()
-        # val_loader.reset()
 
     logging.info('*'*50+'DONE'+'*'*50)
     logging.info('\n Best_Epoch: {0}\t'
@@ -311,17 +299,6 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
             output = model(input_var)
             loss = criterion(output, target_var)
 
-        #* L1-norm
-        # L1_norm = 0
-        # T = 1e-4
-        # conv_parameters = []
-        # for no,(name,module) in model.named_modules():
-        #     if no>1 and isinstance(module,nn.Conv2d): # all conv layers except the first one
-        #         conv_parameters.append(module.Rweight)
-        # for param in conv_parameters:
-        #     L1_norm += torch.sum(torch.abs(torch.abs(param)-1))
-        # loss = loss + T * L1_norm
-
         if type(output) is list:
             output = output[0]
 
@@ -365,56 +342,10 @@ def train(data_loader, model, criterion, epoch, optimizer,beta_distribution):
 
 
 def validate(data_loader, model, criterion, epoch):
-    # switch to evaluate mode
+    # switch to eval mode
     model.eval()
     return forward(data_loader, model, criterion, epoch,
                    training=False, optimizer=None)
-
-def Tracking(model,epoch,save_path=None):
-    """
-    plot histograms of weights
-    """
-    import matplotlib as mpl
-    mpl.use('Agg')
-    import matplotlib.pyplot as plt
-    conv = []
-    for name,module in model.named_modules():
-        if isinstance(module,nn.Conv2d):
-            add=module.weight.cuda().flatten().detach()
-            conv.append(add.cpu().numpy())
-    img_size = int(np.ceil(len(conv)/5))
-    i = 1
-    fig=plt.figure(figsize=(16, 16*img_size/5))
-    fig.tight_layout(pad=0.1, w_pad=3.0, h_pad=3.0)
-    for w in conv:
-        plt.subplot(img_size,5,i)
-        plt.hist(w,bins=100)
-        i+=1
-    image_path=os.path.join(save_path, 'images')
-    if not os.path.exists(image_path):
-        os.mkdir(image_path)
-    path = os.path.join(image_path,str(epoch)+'.png')
-    plt.savefig(path, bbi=300,bbox_inches = 'tight')
-    plt.close()
-
-    Rconv = []
-    for name,module in model.named_modules():
-        if isinstance(module,nn.Conv2d):
-            add=getattr(module,'Rweight',module.weight).cuda().flatten().detach()
-            Rconv.append(add.cpu().numpy())
-    i = 1
-    fig=plt.figure(figsize=(16, 16*img_size/5))
-    fig.tight_layout(pad=0.1, w_pad=3.0, h_pad=3.0)
-    for w in Rconv:
-        plt.subplot(img_size,5,i)
-        plt.hist(w,bins=100)
-        i+=1
-    image2_path=os.path.join(save_path, 'images2')
-    if not os.path.exists(image2_path):
-        os.mkdir(image2_path)
-    path = os.path.join(image2_path,str(epoch)+'.png')
-    plt.savefig(path, bbi=300,bbox_inches = 'tight')
-    plt.close()
 
 
 if __name__ == '__main__':
