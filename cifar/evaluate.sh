@@ -6,7 +6,7 @@ python -u main.py \
 --save result \
 --data_path DATA_PATH \
 --dataset cifar10 \
---epoch 120 \
+--epoch 1000 \
 --lr 0.1 \
 -b 256 \
 -bt 128 \
