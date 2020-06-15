@@ -150,7 +150,7 @@ parser.add_argument(
     default=1,
     type=int,
     metavar='N',
-    help='interval of updating rotation matrix (default:2)')
+    help='interval of updating rotation matrix (default:1)')
 
 parser.add_argument(
     '--Tmin',
