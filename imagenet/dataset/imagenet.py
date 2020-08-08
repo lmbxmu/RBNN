@@ -56,9 +56,8 @@ class HybridValPipe(Pipeline):
         return [output, self.labels]
 
 
-def get_imagenet_iter_dali(type, image_dir, batch_size, num_threads, device_id, num_gpus, crop, val_size=256,
-                           world_size=1,
-                           local_rank=0):
+def get_imagenet_iter_dali(type, image_dir, batch_size, num_threads, device_id, num_gpus=1, crop=224, val_size=256,
+                           world_size=1, local_rank=0):
     if type == 'train':
         pip_train = HybridTrainPipe(batch_size=batch_size, num_threads=num_threads, device_id=local_rank,
                                     data_dir=image_dir + '/ILSVRC2012_img_train',
@@ -75,7 +74,7 @@ def get_imagenet_iter_dali(type, image_dir, batch_size, num_threads, device_id, 
         return dali_iter_val
 
 
-def get_imagenet_iter_torch(type, image_dir, batch_size, num_threads, device_id, num_gpus, crop, val_size=256,
+def get_imagenet_iter_torch(type, image_dir, batch_size, num_threads, device_id, num_gpus=1, crop=224, val_size=256,
                             world_size=1, local_rank=0):
     if type == 'train':
         transform = transforms.Compose([

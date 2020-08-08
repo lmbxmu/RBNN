@@ -100,8 +100,8 @@ def main():
             logging.error("no checkpoint found at '%s'", args.resume)
 
     criterion = nn.CrossEntropyLoss().cuda()
-    criterion.type(args.type)
-    model.type(args.type)
+    criterion = criterion.type(args.type)
+    model = model.type(args.type)
 
     if args.evaluate:
         val_loader = dataset.load_data(
@@ -153,7 +153,7 @@ def main():
         for param_group in optimizer.param_groups:
             param_group['lr'] = cosin(args.start_epoch-args.warm_up*4, args.epochs-args.warm_up*4,0, args.lr)
     if args.lr_type == 'cos':
-        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch)
+        lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.epochs-args.warm_up*4, eta_min = 0, last_epoch=args.start_epoch-args.warm_up*4)
     elif args.lr_type == 'step':
         lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, args.lr_decay_step, gamma=0.1, last_epoch=-1)
     if not args.resume:
@@ -171,7 +171,7 @@ def main():
     #* Mixup
     beta_distribution = None
     if args.mixup:
-        alpha=0.1
+        alpha = 0.1
         beta_distribution = torch.distributions.beta.Beta(alpha, alpha)
     #* setup conv_modules.epoch
     conv_modules=[]
@@ -184,7 +184,7 @@ def main():
         #*warm up
         if args.warm_up and epoch <5:
             for param_group in optimizer.param_groups:
-                param_group['lr'] = args.lr * (epoch+1)/5
+                param_group['lr'] = args.lr * (epoch+1) / 5
         for param_group in optimizer.param_groups:
             logging.info('lr: %s', param_group['lr'])
 
@@ -195,19 +195,19 @@ def main():
                 module.k = k.cuda()
                 module.t = t.cuda()
         for module in conv_modules:
-            module.epoch=epoch
+            module.epoch = epoch
         # train
         train_loss, train_prec1, train_prec5 = train(
-            train_loader, model, criterion, epoch, optimizer,beta_distribution)
+            train_loader, model, criterion, epoch, optimizer, beta_distribution)
 
         #* adjust Lr
-        if epoch>=4*args.warm_up:
+        if epoch >= 4 * args.warm_up:
             lr_scheduler.step()
 
         # evaluate 
         with torch.no_grad():
             for module in conv_modules:
-                module.epoch=-1
+                module.epoch = -1
             val_loss, val_prec1, val_prec5 = validate(
                 val_loader, model, criterion, epoch)
 
@@ -230,7 +230,7 @@ def main():
                 'parameters': list(model_parameters),
             }, is_best, path=save_path)
 
-        if args.time_estimate>0 and epoch%args.time_estimate==0:
+        if args.time_estimate > 0 and epoch % args.time_estimate==0:
            time_end = datetime.now()
            cost_time,finish_time = get_time(time_end-time_start,epoch,args.epochs)
            logging.info('Time cost: '+cost_time+'\t'
@@ -254,7 +254,7 @@ def main():
                      'Best_Loss {loss:.3f} \t'
                      .format(best_epoch+1, prec1=best_prec1, loss=best_loss))
 
-def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=None,beta_distribution=None):
+def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=None, beta_distribution=None):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -301,7 +301,7 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
             # compute gradient
             optimizer.zero_grad()
             loss.backward()
-            optimizer.step() 
+            optimizer.step()
 
         # measure elapsed time
         batch_time.update(time.time() - end)
@@ -323,15 +323,13 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
     return losses.avg, top1.avg, top5.avg
 
 
-def train(data_loader, model, criterion, epoch, optimizer,beta_distribution):
-    # switch to train mode
+def train(data_loader, model, criterion, epoch, optimizer, beta_distribution):
     model.train()
     return forward(data_loader, model, criterion, epoch,
-                   training=True, optimizer=optimizer)
+                   training=True, optimizer=optimizer, beta_distribution=beta_distribution)
 
 
 def validate(data_loader, model, criterion, epoch):
-    # switch to eval mode
     model.eval()
     return forward(data_loader, model, criterion, epoch,
                    training=False, optimizer=None)

@@ -190,4 +190,10 @@ parser.add_argument(
     action='store_true',
     help='use warm up or not')
 
+parser.add_argument(
+    '--use_dali',
+    dest='use_dali',
+    action='store_true',
+    help='use DALI to load dataset or not') 
+
 args = parser.parse_args()
