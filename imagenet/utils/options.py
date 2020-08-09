@@ -140,12 +140,6 @@ parser.add_argument(
     help='print estimating finish time,set to 0 to disable')
 
 parser.add_argument(
-    '--mixup',
-    dest='mixup',
-    action='store_true',
-    help='use mixup or not')
-
-parser.add_argument(
     '--rotation_update',
     default=1,
     type=int,

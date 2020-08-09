@@ -168,11 +168,6 @@ def main():
         k = max(1/t,torch.tensor(1.)).float()
         return t, k
 
-    #* Mixup
-    beta_distribution = None
-    if args.mixup:
-        alpha = 0.1
-        beta_distribution = torch.distributions.beta.Beta(alpha, alpha)
     #* setup conv_modules.epoch
     conv_modules=[]
     for name,module in model.named_modules():
@@ -198,7 +193,7 @@ def main():
             module.epoch = epoch
         # train
         train_loss, train_prec1, train_prec5 = train(
-            train_loader, model, criterion, epoch, optimizer, beta_distribution)
+            train_loader, model, criterion, epoch, optimizer)
 
         #* adjust Lr
         if epoch >= 4 * args.warm_up:
@@ -254,7 +249,7 @@ def main():
                      'Best_Loss {loss:.3f} \t'
                      .format(best_epoch+1, prec1=best_prec1, loss=best_loss))
 
-def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=None, beta_distribution=None):
+def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=None):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -274,19 +269,9 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
         input_var = Variable(inputs.type(args.type))
         target_var = Variable(target)
         
-        if beta_distribution: #*mixup Loss
-            lambda_ = beta_distribution.sample([]).item()
-            index = torch.randperm(input_var.size(0)).cuda()
-            mixed_images = lambda_ * input_var + (1 - lambda_) * input_var[index, :]
-            label_a, label_b = target_var, target_var[index]
-            # Mixup loss.
-            output = model(mixed_images)
-            loss = (lambda_ * criterion(output, label_a)
-                    + (1 - lambda_) * criterion(output, label_b))
-        else: #* normal Loss
-            # compute output
-            output = model(input_var)
-            loss = criterion(output, target_var)
+        # compute output
+        output = model(input_var)
+        loss = criterion(output, target_var)
 
         if type(output) is list:
             output = output[0]
@@ -323,10 +308,10 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
     return losses.avg, top1.avg, top5.avg
 
 
-def train(data_loader, model, criterion, epoch, optimizer, beta_distribution):
+def train(data_loader, model, criterion, epoch, optimizer):
     model.train()
     return forward(data_loader, model, criterion, epoch,
-                   training=True, optimizer=optimizer, beta_distribution=beta_distribution)
+                   training=True, optimizer=optimizer)
 
 
 def validate(data_loader, model, criterion, epoch):

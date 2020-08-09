@@ -12,4 +12,3 @@ python -u main.py \
 --Tmax 1e1 \
 --lr_type cos \
 --warm_up \
---mixup \
