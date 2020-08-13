@@ -18,7 +18,6 @@ python -u main.py \
 --Tmax 1e1 \
 --lr_type cos \
 --warm_up \
---mixup \
 ```
 `--results_dir` &emsp;Path to save directory  
 `--save` &emsp;Path to save folder    
@@ -39,7 +38,6 @@ python -u main.py \
 `--batch_size_test / -bt` &emsp;Evaluating batch size, default: 128  
 `--print_freq` &emsp;Print frequency，default: 100  
 `--time_estimate` &emsp;Estimate finish time of the program，set to 0 to disable，default: 1     
-`--mixup` &emsp;Use mixup loss    
 `--rotation_update` &emsp;Update rotaion matrix every n epoch，default: 1   
 `--Tmin` &emsp;The minimum of param T in gradient approximation function，default: 1e-2  
 `--Tmax` &emsp;The maximum of param T in gradient approximation function，default: 1e1  
@@ -61,7 +59,6 @@ Tmin | 1e-2 | 1e-2 | 1e-2
 Tmax | 1e1 | 1e1 | 1e1
 lr_type | cos | cos | cos
 rotation_update | 1 | 1 | 1
-mix_up | True | True | True
 warm_up | True | True | True
 
 Note: Training for 400 epochs on cifar10 can also achieve impressive results, but training for 1000 epochs performs better, so we set `epochs` to 1000 as default.
@@ -82,7 +79,7 @@ python -u main.py \
 --Tmax 1e1 \
 --lr_type cos \
 --warm_up \
---mixup \
+--use_dali \
 ```   
 Other args are the same as those in CIFAR  
 `--model / -a` &emsp;Choose model，  
@@ -111,5 +108,4 @@ Tmin | 1e-2 | 1e-2
 Tmax | 1e1 | 1e1 
 lr_type | cos | cos 
 rotation_update | 1 | 1 
-mix_up | True | True 
 warm_up | True | True 
