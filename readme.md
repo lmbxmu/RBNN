@@ -110,5 +110,6 @@ lr_type | cos | cos
 rotation_update | 1 | 1 
 warm_up | True | True 
 
-lr | weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type | rotation_update | warm_up
--|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:
+| lr | weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type | rotation_update | warm_up | model | Link |
+|----|--------------|----------|--------|------------|-----------------|------|------|---------|-----------------|---------|-------|------|
+| 0.1|    1e-4      |    0.9   |  150   |   512      |  256            | 1e-2 | 10.0 |  cos    |        1        |   False |resnet34_1w1a|  |
