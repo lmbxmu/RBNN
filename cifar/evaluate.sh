@@ -4,5 +4,4 @@ python -u main.py \
 --model resnet20_1w1a \
 --data_path DATA_PATH \
 --dataset cifar10 \
--b 256 \
 -bt 128 \

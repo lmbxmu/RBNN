@@ -28,7 +28,7 @@ python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
 --results_dir ./result \
---data_path ./data \
+--data_path [DATA_PATH] \
 --dataset cifar10 \
 --epochs 1000 \
 --lr 0.1 \
@@ -39,48 +39,75 @@ python -u main.py \
 --lr_type cos \
 --warm_up \
 ```
-`--results_dir` &emsp;Path to save directory  
-`--save` &emsp;Path to save folder    
-`--resume` &emsp;Load checkpoint    
-`--evaluate / -e`  &emsp;Evaluate  
-`--model / -a` &emsp;Choose model   
-&emsp;&emsp; default:&emsp;resnet20_1w1a,   
-&emsp;&emsp; options:&emsp;resnet18_1w1a;&emsp;vgg_small_1w1a       
-`--dataset` &emsp;Choose dataset，default: cifar10，options: cifar100 / tinyimagenet / imagenet  
-`--data_path` &emsp;Path to dataset    
-`--gpus` &emsp;Specify gpus, e.g. 0,1  
-`--lr` &emsp;Learning rate，default: 0.1  
-`--weight_decay` &emsp;Weight decay, default: 1e-4  
-`--momentum` &emsp;Momentum, default: 0.9  
-`--workers` &emsp;Data loading workers，default: 8  
-`--epochs` &emsp;Number of training epochs，default:1000  
-`--batch_size / -b` &emsp;Batch size，default: 256   
-`--batch_size_test / -bt` &emsp;Evaluating batch size, default: 128  
-`--print_freq` &emsp;Print frequency，default: 100  
-`--time_estimate` &emsp;Estimate finish time of the program，set to 0 to disable，default: 1     
-`--rotation_update` &emsp;Update rotaion matrix every n epoch，default: 1   
-`--Tmin` &emsp;The minimum of param T in gradient approximation function，default: 1e-2  
-`--Tmax` &emsp;The maximum of param T in gradient approximation function，default: 1e1  
-`--lr_type` &emsp;Type of learning rate scheduler，default: cos (which means CosineAnnealingLR)，options: step (which means MultiStepLR)  
-`--lr_decay_step` &emsp;If choose MultiStepLR, set milestones，eg: 30 60 90    
-`--a32` &emsp;Don't binarize activation, namely w1a32    
-`--warm_up` &emsp;Use warm up  
 
+```
+optinal arguments:
+    --results_dir             Path to save directory  
+    --save                    Path to save folder    
+    --resume                  Load checkpoint    
+    --evaluate / -e           Evaluate  
+    --model / -a              Choose model   
+                              default: resnet20_1w1a;   
+                              options: resnet18_1w1a / vgg_small_1w1a       
+    --dataset                 Choose dataset
+                              default: cifar10
+                              options: cifar100 / tinyimagenet / imagenet  
+    --data_path               Path to dataset    
+    --gpus                    Specify gpus, e.g. 0, 1  
+    --lr                      Learning rate
+                              default: 0.1  
+    --weight_decay            Weight decay
+                              default: 1e-4  
+    --momentum                Momentum
+                              default: 0.9  
+    --workers                 Data loading workers
+                              default: 8  
+    --epochs                  Number of training epochs
+                              default:1000  
+    --batch_size / -b         Batch size
+                              default: 256   
+    --batch_size_test / -bt   Evaluating batch size
+                              default: 128  
+    --print_freq              Print frequency 
+                              default: 100  
+    --time_estimate           Estimate finish time of the progra
+                              set to 0 to disable
+                              default: 1     
+    --rotation_update         Update rotaion matrix every n epoch
+                              default: 1   
+    --Tmin                    Minimum of param T in gradient approximation function
+                              default: 1e-2  
+    --Tmax                    Maximum of param T in gradient approximation function
+                              default: 1e1  
+    --lr_type                 Type of learning rate scheduler
+                              default: cos (CosineAnnealingLR)
+                              options: step (MultiStepLR)  
+    --lr_decay_step           If choose MultiStepLR, set milestones.
+                              eg: 30 60 90    
+    --a32                     Don't binarize activation, namely w1a32    
+    --warm_up                 Use warm up  
+```
 #### Results on CIFAR-10.
 
 | batch_size | batch_size_test | epochs| Top-1 |quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
-|   256      |  128            |1,000  | 92.2% |[resnet18_1w1a]()|  Yes      | 
-|   256      |  128            |1,000  | 86.5% |[resnet20_1w1a]()|  Yes      | 
-|   256      |  128            |1,000  | 87.8% |[resnet20_1w1a]()|  Yes      | 
-|   256      |  128            |1,000  | 91.3% |[vgg_small_1w1a]()|  Yes      | 
+|   256      |  128            |1,000  | 92.2% |[resnet18_1w1a]()|  $\checkmark$      | 
+|   256      |  128            |1,000  | 86.5% |[resnet20_1w1a]()|  $\checkmark$      | 
+|   256      |  128            |1,000  | 87.8% |[resnet20_bireal_1w1a]()|  $\checkmark$      | 
+|   256      |  128            |1,000  | 91.3% |[vgg_small_1w1a]()|  $\checkmark$      | 
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
 To verify our quantized model performance on CIFAR-10, please use the following command:
-```
-python ......
+```python 
+python -u main.py \
+--gpus 0 \
+-e [best_model_path] \
+--model resnet20_1w1a \
+--data_path [DATA_PATH] \
+--dataset cifar10 \
+-bt 128 \
 ```
 
 
@@ -101,7 +128,7 @@ python -u main.py \
 --lr_type cos \
 --use_dali \
 ```   
-Other arguments are the same as those on CIFAR-10 
+Other arguments are the same as those on CIFAR-10   
 `--model / -a` &emsp;Choose model，  
 &emsp;&emsp;default: resnet18_1w1a.   
 &emsp;&emsp;options: resnet34_1w1a     
@@ -122,10 +149,10 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 | batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
-|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a]()    |  No | 
-|   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a]()    |  Yes| 
-|   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a]()    |  No | 
-|   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a]()    |  Yes|
+|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1j5awYHDurydgI8F6ETUYnJT69VjJezVu/view?usp=sharing)    |  $\times$ | 
+|   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/file/d/1lTH9CrJGvQV3Cply2vmpAS2Vq0nJ_j6C/view?usp=sharing)    | $\checkmark$| 
+|   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1nw7nUz87DzFGirFajP9dsDkoFyfWB-Kr/view?usp=sharing)    |  $\times$ | 
+|   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a](https://drive.google.com/file/d/1AOHbaLFmZ_F23jn8aKerMonKkuJT1g0s/view?usp=sharing)    |  $\checkmark$|
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
