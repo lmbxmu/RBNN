@@ -2,6 +2,11 @@ Pytorch implementation of **Rotated Binary Neural Network**
 torch.\_\_version\_\_=1.1.0 
 
 
+## Tips
+
+Any problem, please contact the authors via emails: lmbxmu@stu.xmu.edu.cn or ianhsu@stu.xmu.edu.cn or adding the first author's wechat as friends (id: linmb007 if you are using wechat) for convenient communications. Do not post issues with github as much as possible, just in case that I could not receive the emails from github thus ignore the posted issues.
+
+
 # CIFAR-10
 ```bash
 python -u main.py \
