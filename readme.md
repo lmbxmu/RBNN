@@ -92,7 +92,7 @@ Other arguments are the same as those on CIFAR-10
 &emsp;&emsp;default: resnet18_1w1a.   
 &emsp;&emsp;options: resnet34_1w1a     
 
-We provide two types of dataloaders, i.e, nvidia-dali and the standard implementation in Pytorch. They use the same data augmentations, including random crop and horizontal flip.
+We provide two types of dataloaders from nvidia-dali and Pytorch respectively. They use the same data augmentations, including random crop and horizontal flip. We empirically find that the dataloader by Pytorch can offer a better accuracy performance. They may have different code implementations. Anyway, we haven't figured it out yet. However, nvidia-dali shows it extreme efficiency in processing data thus can well accelerate the network training.
   
 Imagenet DataLoaders are implemented with [nvidia-dali](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html), if you have never used dali before, you only need to install nvidia-dali package and the version of nvidia-dali should be >= 0.12
 ```
