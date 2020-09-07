@@ -52,19 +52,6 @@ python -u main.py \
 `--warm_up` &emsp;Use warm up  
 
 #### Results on CIFAR-10.
-args | resnet20_1w1a | resnet18_1w1a | vgg_small_1w1a
--|:-:|:-:|:-:
-lr | 0.1 | 0.1 | 0.1
-weight_decay | 1e-4 | 1e-4 | 1e-4 
-momentum | 0.9 | 0.9 | 0.9
-epochs | 1000 | 1000 | 1000
-batch_size | 256 | 256 | 256
-batch_size_test | 128 | 128 | 128
-Tmin | 1e-2 | 1e-2 | 1e-2 
-Tmax | 1e1 | 1e1 | 1e1
-lr_type | cos | cos | cos
-rotation_update | 1 | 1 | 1
-warm_up | True | True | True
 
 | batch_size | batch_size_test | epochs| Top-1 |quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
