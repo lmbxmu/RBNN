@@ -91,10 +91,10 @@ optinal arguments:
 
 | batch_size | batch_size_test | epochs| Top-1 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
-|   256      |  128            | 1,000 | 92.2% |[resnet18_1w1a](https://drive.google.com/file/d/1f3Yd-G_nn6Gnwq4NlSACID71rWtlhy6v/view?usp=sharing)| ✔ | 
-|   256      |  128            | 1,000 | 86.5% |[resnet20_1w1a](https://drive.google.com/file/d/1wen_uCRTbvUuADOjWgcQMPqxOpRd8FaL/view?usp=sharing)| ✔ | 
-|   256      |  128            | 1,000 | 87.8% |[resnet20_bireal_1w1a](https://drive.google.com/file/d/1g33DZvonZRt34PS30nbKrxd5ed3DQqsK/view?usp=sharing)| ✔ | 
-|   256      |  128            | 1,000 | 91.3% |[vgg_small_1w1a](https://drive.google.com/file/d/1vxAUY0LCxoxFHo1SqJhQYcficE6AhZz1/view?usp=sharing)| ✔ | 
+|   256      |  128            | 1,000 | 92.2% |[resnet18_1w1a](https://drive.google.com/drive/folders/1dABYp66jArFjTQxodpDZ88KCLdGSraY0?usp=sharing)| ✔ | 
+|   256      |  128            | 1,000 | 86.5% |[resnet20_1w1a](https://drive.google.com/drive/folders/1aykx5Kar2Y-8mYf13LqvThdTuSlkgtmQ?usp=sharing)| ✔ | 
+|   256      |  128            | 1,000 | 87.8% |[resnet20_bireal_1w1a](https://drive.google.com/drive/folders/1zotX0apCY4RrKuJ_KjwFYq4OXTne4g91?usp=sharing)| ✔ | 
+|   256      |  128            | 1,000 | 91.3% |[vgg_small_1w1a](https://drive.google.com/drive/folders/16GsXmzVoFkZMrIbPyKdArgpMutr1Gtca?usp=sharing)| ✔ | 
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
@@ -152,10 +152,10 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 | batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
-|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1mvUAvTtkqx47TtYF40ptDsojHcUxqJH2?usp=sharing)    | ✘ | 
-|   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/file/d/1TvbnJtAftMd7D7UuIzaNOCrJ3Gh1T5CX/view?usp=sharing)    | ✔ | 
-|   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1desTHF1yhzVEfX-y89xo7I6Awq1tau6H/view?usp=sharing)    | ✘ | 
-|   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a](https://drive.google.com/file/d/1f-gLdImZTIumjrjGORbNUPlJbs19LcVU/view?usp=sharing)    | ✔ |
+|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1mvUAvTtkqx47TtYF40ptDsojHcUxqJH2?usp=sharing)| ✘ | 
+|   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1fFD9iOg9Wpy2TqCE9rC7foOll7gdEtPY?usp=sharing)| ✔ | 
+|   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1Sy0PW5uHkQw1DVnUVLpW3qT3Otytz2aF?usp=sharing)| ✘ | 
+|   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a](https://drive.google.com/drive/folders/1DxmCVXzUPMIzULSUl2M8Q_OatKVmxooB?usp=sharing)| ✔ |
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
