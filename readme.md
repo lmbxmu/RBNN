@@ -154,7 +154,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 | batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
-|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1mvUAvTtkqx47TtYF40ptDsojHcUxqJH2?usp=sharing)| ✘ | 
+|   256      |  256            |  120  | Yes     |58.8%|80.9%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1mvUAvTtkqx47TtYF40ptDsojHcUxqJH2?usp=sharing)| ✘ | 
 |   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1fFD9iOg9Wpy2TqCE9rC7foOll7gdEtPY?usp=sharing)| ✔ | 
 |   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/drive/folders/1Sy0PW5uHkQw1DVnUVLpW3qT3Otytz2aF?usp=sharing)| ✘ | 
 |   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a](https://drive.google.com/drive/folders/1DxmCVXzUPMIzULSUl2M8Q_OatKVmxooB?usp=sharing)| ✔ |
