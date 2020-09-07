@@ -66,7 +66,7 @@ lr_type | cos | cos | cos
 rotation_update | 1 | 1 | 1
 warm_up | True | True | True
 
-To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. 
+To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
 To verify our quantized model performance on CIFAR-10, please use the following command:
@@ -118,7 +118,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 |   512      |  256            |  150  | Yes     |59.941|81.892 |resnet18_1w1a        |  No | 
 |   512      |  256            |  150  | Yes     |63.141|84.379 |resnet34_1w1a        |  Yes|
 
-To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. 
+To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further increasing the performance of our method: (1) removing the optional augment ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
 
 To verify our quantized model performance on ImageNet, please use the following command:
