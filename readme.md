@@ -51,7 +51,7 @@ python -u main.py \
 `--a32` &emsp;Don't binarize activation, namely w1a32    
 `--warm_up` &emsp;Use warm up  
 
-#### Results on CIFAR-10. To ensure the reproducibility, please refer to our training details provided in the model link.
+#### Results on CIFAR-10.
 args | resnet20_1w1a | resnet18_1w1a | vgg_small_1w1a
 -|:-:|:-:|:-:
 lr | 0.1 | 0.1 | 0.1
@@ -65,6 +65,12 @@ Tmax | 1e1 | 1e1 | 1e1
 lr_type | cos | cos | cos
 rotation_update | 1 | 1 | 1
 warm_up | True | True | True
+
+| batch_size | batch_size_test | epochs| Top-1 |quantized model Link | Paper data|
+|:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
+|   256      |  128            |1,000  |       |resnet18_1w1a        |  Yes      | 
+|   512      |  128            |1,000  |       |resnet20_1w1a        |  Yes      | 
+|   512      |  128            |1,000  |       |vgg_small_1w1a       |  Yes      | 
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
