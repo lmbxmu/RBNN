@@ -91,7 +91,7 @@ optinal arguments:
 
 | batch_size | batch_size_test | epochs| Top-1 |quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
-|   256      |  128            |1,000  | 92.2% |[resnet18_1w1a]()|  $\checkmark$      | 
+|   256      |  128            |1,000  | 92.2% |[resnet18_1w1a]()|  ✓      | 
 |   256      |  128            |1,000  | 86.5% |[resnet20_1w1a]()|  $\checkmark$      | 
 |   256      |  128            |1,000  | 87.8% |[resnet20_bireal_1w1a]()|  $\checkmark$      | 
 |   256      |  128            |1,000  | 91.3% |[vgg_small_1w1a]()|  $\checkmark$      | 
