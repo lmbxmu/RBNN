@@ -152,10 +152,10 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 | batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
-|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1j5awYHDurydgI8F6ETUYnJT69VjJezVu/view?usp=sharing)    |  ✘ | 
-|   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/file/d/1lTH9CrJGvQV3Cply2vmpAS2Vq0nJ_j6C/view?usp=sharing)    | ✔| 
-|   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1nw7nUz87DzFGirFajP9dsDkoFyfWB-Kr/view?usp=sharing)    |  ✘ | 
-|   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a](https://drive.google.com/file/d/1AOHbaLFmZ_F23jn8aKerMonKkuJT1g0s/view?usp=sharing)    |  ✔|
+|   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1j5awYHDurydgI8F6ETUYnJT69VjJezVu/view?usp=sharing)    | ✘ | 
+|   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/file/d/1lTH9CrJGvQV3Cply2vmpAS2Vq0nJ_j6C/view?usp=sharing)    | ✔ | 
+|   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1nw7nUz87DzFGirFajP9dsDkoFyfWB-Kr/view?usp=sharing)    | ✘ | 
+|   512      |  256            |  150  | Yes     |63.1% |84.4%  |[resnet34_1w1a](https://drive.google.com/file/d/1AOHbaLFmZ_F23jn8aKerMonKkuJT1g0s/view?usp=sharing)    | ✔ |
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
