@@ -112,4 +112,4 @@ warm_up | True | True
 
 | lr | weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type | rotation_update | warm_up | model | Top-1| Top-5 | Link | Paper data|
 |----|--------------|----------|--------|------------|-----------------|------|------|---------|-----------------|---------|-------|------|-------|------|-----------| 
-| 0.1|    1e-4      |    0.9   |  150   |   512      |  256            | 1e-2 | 10.0 |  cos    |        1        |   False |  1w1a |63.141| 84.379|      |  Yes |
+| 0.1|    1e-4      |    0.9   |  150   |   512      |  256            | 1e-2 | 10.0 |  cos    |        1        |   False |resnet34_1w1a |63.141| 84.379|      |  Yes |
