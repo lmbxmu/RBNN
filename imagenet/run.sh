@@ -4,11 +4,11 @@ python -u main.py \
 --results_dir DIR \
 --data_path DATA_PATH \
 --dataset imagenet \
---epochs 120 \
+--epochs 150 \
 --lr 0.1 \
--b 256 \
--bt 128 \
+-b 512 \
+-bt 256 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
---warm_up \
+--use_dali \

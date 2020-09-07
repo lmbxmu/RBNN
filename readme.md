@@ -117,7 +117,7 @@ python -u main.py \
 --gpus 0,1,2,3 \
 --model resnet18_1w1a (or resnet34_1w1a) \
 --results_dir ./result \
---data_path ./data \
+--data_path [DATA_PATH] \
 --dataset imagenet \
 --epochs 150 \
 --lr 0.1 \
@@ -164,9 +164,9 @@ To verify our quantized model performance on ImageNet, please use the following 
 ```
 python -u main.py \
 --gpu 0 \
--e path for quantized model \
+-e [best_model_path] \
 --model resnet18_1w1a (or resnet34_1w1a)\
 --dataset imagenet \
---data_path path for ImageNet \
+--data_path [DATA_PATH] \
 -bt 256
 ```
