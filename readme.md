@@ -160,7 +160,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 |   512      |  256            |  150  | Yes     |63.1% | 84.4% |[resnet34_1w1a](https://drive.google.com/drive/folders/1ZHlxc7WPDGctYvxk53HXKPYBdgA4CqBF?usp=sharing)| ✔ |
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
-Small tips for further boosting the performance of our method: (1) removing the optional argument ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
+Small tips for further boosting the performance of our method: (1) removing the optional argument ```--use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
 
 To verify our quantized model performance on ImageNet, please use the following command:
 ```bash
