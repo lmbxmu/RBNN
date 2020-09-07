@@ -97,7 +97,7 @@ More details and documents can be found [here](https://docs.nvidia.com/deeplearn
 
 ## Implementation details on ImageNet
 
-| lr | weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type |rotation_update | warm_up | use_dali| model | Top-1| Top-5 | Link | Paper data|
+|<font size="1">lr</font>| weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type |rotation_update | warm_up | use_dali| model | Top-1| Top-5 | Link | Paper data|
 |:--:|:------------:|:--------:|:------:|:----------:|:---------------:|:----:|:----:|:-------:|:---------------:|:-------:|:-------:|:-----:|:----:|:-----:|:----:|:---------:|
 | 0.1|    1e-4      |    0.9   |  120   |   512      |  256            | 1e-2 | 10.0 |  cos    |        1        |   False | Yes |resnet18_1w1a|59.550|81.581|      |  Yes | 
 | 0.1|    1e-4      |    0.9   |  120   |   256      |  256            | 1e-2 | 10.0 |  cos    |        1        |   False | Yes |resnet18_1w1a |58.757|80.935|      |  No | 
