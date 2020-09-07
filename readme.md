@@ -51,7 +51,7 @@ python -u main.py \
 `--a32` &emsp;Don't binarize activation, namely w1a32    
 `--warm_up` &emsp;Use warm up  
 
-### Results on CIFAR-10
+#### Results on CIFAR-10. To ensure the reproducibility, please refer to our training details provided in the model link.
 args | resnet20_1w1a | resnet18_1w1a | vgg_small_1w1a
 -|:-:|:-:|:-:
 lr | 0.1 | 0.1 | 0.1
@@ -103,7 +103,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 ```
 
 
-### Results on ImageNet: To ensure the reproducibility, please refer to our training details provided in the model link.
+#### Results on ImageNet. To ensure the reproducibility, please refer to our training details provided in the model link.
 
 | batch_size | batch_size_test | use_dali| Top-1| Top-5 |model Link | Paper data|
 |:----------:|:---------------:|:-------:|:----:|:-----:|:---------:|:---------:|
