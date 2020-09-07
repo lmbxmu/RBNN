@@ -105,7 +105,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 
 ### Results on ImageNet
-element {
+@settings{
   font-size: 75;
 }
 
