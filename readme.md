@@ -133,7 +133,7 @@ python -u main.py \
 Other arguments are the same as those on CIFAR-10   
 ```
 optinal arguments:
-    --model / -a        Choose model，  
+    --model / -a        Choose model  
                         default: resnet18_1w1a.   
                         options: resnet34_1w1a   
 ```  
