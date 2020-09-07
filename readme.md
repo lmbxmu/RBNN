@@ -66,7 +66,7 @@ lr_type | cos | cos | cos
 rotation_update | 1 | 1 | 1
 warm_up | True | True | True
 
-Note: If it takes too much time to finish a totoal of 1,000 epochs on your platform, you can consider 400 epochs instead, which also feeds back impressive performance, better than the state-of-the-art methods in the paper.
+Note: If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
 
 ## ImageNet
