@@ -95,7 +95,7 @@ optinal arguments:
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
 |   256      |  128            | 1,000 | 92.2% |[resnet18_1w1a](https://drive.google.com/drive/folders/1dABYp66jArFjTQxodpDZ88KCLdGSraY0?usp=sharing)| ✔ | 
 |   256      |  128            | 1,000 | 86.5% |[resnet20_1w1a](https://drive.google.com/drive/folders/1aykx5Kar2Y-8mYf13LqvThdTuSlkgtmQ?usp=sharing)| ✔ | 
-|   256      |  128            | 1,000 | 87.8% |[resnet20_bireal_1w1a](https://drive.google.com/drive/folders/1zotX0apCY4RrKuJ_KjwFYq4OXTne4g91?usp=sharing)| ✔ | 
+|   256      |  128            | 1,000 | 87.8% |[resnet20_bireal_1w1a](https://drive.google.com/drive/folders/1kwZAe0Ock4CptEuAjxs4ENrrv9jrXULm?usp=sharing)| ✔ | 
 |   256      |  128            | 1,000 | 91.3% |[vgg_small_1w1a](https://drive.google.com/drive/folders/16GsXmzVoFkZMrIbPyKdArgpMutr1Gtca?usp=sharing)| ✔ | 
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
