@@ -39,7 +39,7 @@ python -u main.py \
 --lr_type cos \
 --warm_up \
 ```
-### 
+### Other optional arguments
 ```
 optinal arguments:
     --results_dir             Path to save directory  
@@ -115,7 +115,7 @@ python -u main.py \
 ```bash
 python -u main.py \
 --gpus 0,1,2,3 \
---model resnet18_1w1a \
+--model resnet18_1w1a (or resnet34_1w1a) \
 --results_dir ./result \
 --data_path ./data \
 --dataset imagenet \
@@ -129,9 +129,12 @@ python -u main.py \
 --use_dali \
 ```   
 Other arguments are the same as those on CIFAR-10   
-`--model / -a` &emsp;Choose model，  
-&emsp;&emsp;default: resnet18_1w1a.   
-&emsp;&emsp;options: resnet34_1w1a     
+```
+optinal arguments:
+    --model / -a        Choose model，  
+                        default: resnet18_1w1a.   
+                        options: resnet34_1w1a   
+```  
 
 We provide two types of dataloaders by [nvidia-dali](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html) and [Pytorch](https://pytorch.org/docs/stable/data.html) respectively. They use the same data augmentations, including random crop and horizontal flip. We empirically find that the dataloader by Pytorch can offer a better accuracy performance. They may have different code implementations. Anyway, we haven't figured it out yet. However, nvidia-dali shows its extreme efficiency in processing data which well accelerates the network training. The reported experimental results are on the basis of nvidia-dali due to the very limited time in preparation of NeurIPS submission. If interested, you can try dataloader by Pytorch via removing the optional argument ```-- use_dali``` to obtain a better performance.
  
@@ -165,6 +168,5 @@ python -u main.py \
 --model resnet18_1w1a (or resnet34_1w1a)\
 --dataset imagenet \
 --data_path path for ImageNet \
--b 512 \
 -bt 256
 ```
