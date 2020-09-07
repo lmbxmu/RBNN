@@ -39,7 +39,7 @@ python -u main.py \
 --lr_type cos \
 --warm_up \
 ```
-
+### 
 ```
 optinal arguments:
     --results_dir             Path to save directory  
@@ -100,26 +100,14 @@ To ensure the reproducibility, please refer to our training details provided in 
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
 To verify our quantized model performance on CIFAR-10, please use the following command:
-<<<<<<< HEAD
 ```python 
 python -u main.py \
 --gpus 0 \
 -e [best_model_path] \
---model resnet20_1w1a \
+--model resnet20_1w1a (or resnet20_1w1a or vgg_small_1w1a) \
 --data_path [DATA_PATH] \
 --dataset cifar10 \
 -bt 128 \
-=======
-```
-python -u main.py \
---gpu 0 \
--e path for quantized model \
---model resnet18_1w1a (or resnet20_1w1a or vgg_small_1w1a) \
---dataset cifar10 \
---data_path path for CIFAR_10 \
--b 256 \
--bt 128
->>>>>>> fc6f9ade7c9973e333123d04d1f0b665595acfb0
 ```
 
 
