@@ -105,9 +105,9 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 #### Results on ImageNet. To ensure the reproducibility, please refer to our training details provided in the model link.
 
-| batch_size | batch_size_test | use_dali| Top-1| Top-5 |model Link | Paper data|
-|:----------:|:---------------:|:-------:|:----:|:-----:|:---------:|:---------:|
-|   256      |  256            | Yes     |58.757|80.935 |resnet18_1w1a|  No | 
-|   512      |  256            | Yes     |59.550|81.581 |resnet18_1w1a|  Yes| 
-|   512      |  256            | Yes     |59.941|81.892 |resnet18_1w1a|  No | 
-|   512      |  256            | Yes     |63.141|84.379 |resnet34_1w1a|  Yes|
+| batch_size | batch_size_test | epoch | use_dali| Top-1| Top-5 |model Link | Paper data|
+|:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:---------:|:---------:|
+|   256      |  256            |  120  | Yes     |58.757|80.935 |resnet18_1w1a|  No | 
+|   512      |  256            |  120  | Yes     |59.550|81.581 |resnet18_1w1a|  Yes| 
+|   512      |  256            |  150  | Yes     |59.941|81.892 |resnet18_1w1a|  No | 
+|   512      |  256            |  150  | Yes     |63.141|84.379 |resnet34_1w1a|  Yes|
