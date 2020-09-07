@@ -66,7 +66,8 @@ lr_type | cos | cos | cos
 rotation_update | 1 | 1 | 1
 warm_up | True | True | True
 
-Note: Training for 400 epochs on cifar10 can also achieve impressive results, but training for 1000 epochs performs better, so we set `epochs` to 1000 as default.
+Note: If it takes too much time to finish a totoal of 1,000 epochs on your platform, you can consider 400 epochs instead, which also feeds back impressive performance, better than the state-of-the-art methods in the paper.
+
 
 ## ImageNet
 ```bash
