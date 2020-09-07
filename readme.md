@@ -80,7 +80,14 @@ If it takes too much time to finish a total of 1,000 epochs on your platform, yo
 
 To verify our quantized model performance on CIFAR-10, please use the following command:
 ```
-python ......
+python -u main.py \
+--gpu 0 \
+-e path for quantized model \
+--model resnet18_1w1a (or resnet20_1w1a or vgg_small_1w1a) \
+--dataset cifar10 \
+--data_path path for CIFAR_10 \
+-b 256 \
+-bt 128
 ```
 
 
@@ -132,5 +139,12 @@ Small tips for further boosting the performance of our method: (1) removing the 
 
 To verify our quantized model performance on ImageNet, please use the following command:
 ```
-python ......
+python -u main.py \
+--gpu 0 \
+-e path for quantized model \
+--model resnet18_1w1a (or resnet34_w1a)\
+--dataset imagenet \
+--data_path path for ImageNet \
+-b 512 \
+-bt 256
 ```
