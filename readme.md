@@ -109,3 +109,6 @@ Tmax | 1e1 | 1e1
 lr_type | cos | cos 
 rotation_update | 1 | 1 
 warm_up | True | True 
+
+lr | weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type | rotation_update | warm_up
+-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:
