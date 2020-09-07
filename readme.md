@@ -1,4 +1,4 @@
-Pytorch implementation of **Rotated Binary Neural Network**  
+# Rotated Binary Neural Network ([Link]()).
 torch.\_\_version\_\_=1.1.0 
 
 
