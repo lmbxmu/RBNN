@@ -1,8 +1,8 @@
 python -u main.py \
 --gpus 0 \
 --model resnet20_1w1a \
---results_dir DIR \
---data_path DATA_PATH \
+--results_dir [DIR] \
+--data_path [DATA_PATH] \
 --dataset cifar10 \
 --epochs 1000 \
 --lr 0.1 \

@@ -97,7 +97,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--epochs',
-    default=120,
+    default=150,
     type=int,
     metavar='N',
     help='number of total epochs to run')
@@ -112,7 +112,7 @@ parser.add_argument(
 parser.add_argument(
     '-b',
     '--batch_size',
-    default=256,
+    default=512,
     type=int,
     metavar='N',
     help='mini-batch size for training (default: 256)')
@@ -120,7 +120,7 @@ parser.add_argument(
 parser.add_argument(
     '-bt',
     '--batch_size_test',
-    default=128,
+    default=256,
     type=int,
     help='mini-batch size for testing (default: 128)')
 

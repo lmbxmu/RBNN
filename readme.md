@@ -89,7 +89,7 @@ optinal arguments:
 ```
 #### Results on CIFAR-10.
 
-| batch_size | batch_size_test | epochs| Top-1 |quantized model Link | Paper data|
+| batch_size | batch_size_test | epochs| Top-1 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
 |   256      |  128            |1,000  | 92.2% |[resnet18_1w1a]()|  ✔      | 
 |   256      |  128            |1,000  | 86.5% |[resnet20_1w1a]()|  ✔      | 
@@ -150,8 +150,8 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 #### Results on ImageNet.
 
-| batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |quantized model Link | Paper data|
-|:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
+| batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |Quantized model Link | Paper data|
+|:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:ff
 |   256      |  256            |  120  | Yes     |58.65%|80.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1j5awYHDurydgI8F6ETUYnJT69VjJezVu/view?usp=sharing)    |  ✘ | 
 |   512      |  256            |  120  | Yes     |59.6% |81.6%  |[resnet18_1w1a](https://drive.google.com/file/d/1lTH9CrJGvQV3Cply2vmpAS2Vq0nJ_j6C/view?usp=sharing)    | ✔| 
 |   512      |  256            |  150  | Yes     |59.9% |81.9%  |[resnet18_1w1a](https://drive.google.com/file/d/1nw7nUz87DzFGirFajP9dsDkoFyfWB-Kr/view?usp=sharing)    |  ✘ | 

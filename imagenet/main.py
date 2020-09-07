@@ -117,7 +117,8 @@ def main():
                         device_id='cuda:0',
                         num_gpus=1)
         else:
-            val_loader = dataset.get_imagenet_torch(type='val',
+            val_loader = dataset.get_imagenet_torch(
+                        type='val',
                         image_dir=args.data_path,
                         batch_size=args.batch_size_test,
                         num_threads=args.workers,
@@ -133,33 +134,37 @@ def main():
 
     if args.dataset=='imagenet':
         if args.use_dali:
-            train_loader = dataset.get_imagenet(type='train',
-                                        image_dir=args.data_path,
-                                        batch_size=args.batch_size,
-                                        num_threads=args.workers,
-                                        crop=224,
-                                        device_id='cuda:0',
-                                        num_gpus=1)
-            val_loader = dataset.get_imagenet(type='val',
-                                        image_dir=args.data_path,
-                                        batch_size=args.batch_size_test,
-                                        num_threads=args.workers,
-                                        crop=224,
-                                        device_id='cuda:0',
-                                        num_gpus=1)
+            train_loader = dataset.get_imagenet(
+                            type='train',
+                            image_dir=args.data_path,
+                            batch_size=args.batch_size,
+                            num_threads=args.workers,
+                            crop=224,
+                            device_id='cuda:0',
+                            num_gpus=1)
+            val_loader = dataset.get_imagenet(
+                            type='val',
+                            image_dir=args.data_path,
+                            batch_size=args.batch_size_test,
+                            num_threads=args.workers,
+                            crop=224,
+                            device_id='cuda:0',
+                            num_gpus=1)
         else:
-            train_loader = dataset.get_imagenet_torch(type='train',
-                                        image_dir=args.data_path,
-                                        batch_size=args.batch_size,
-                                        num_threads=args.workers,
-                                        device_id='cuda:0',
-                                        )
-            val_loader = dataset.get_imagenet_torch(type='val',
-                                        image_dir=args.data_path,
-                                        batch_size=args.batch_size_test,
-                                        num_threads=args.workers,
-                                        device_id='cuda:0'
-                                        )             
+            train_loader = dataset.get_imagenet_torch(
+                            type='train',
+                            image_dir=args.data_path,
+                            batch_size=args.batch_size,
+                            num_threads=args.workers,
+                            device_id='cuda:0',
+                            )
+            val_loader = dataset.get_imagenet_torch(
+                            type='val',
+                            image_dir=args.data_path,
+                            batch_size=args.batch_size_test,
+                            num_threads=args.workers,
+                            device_id='cuda:0'
+                            )             
     else: 
         train_loader, val_loader = dataset.load_data(
                                     dataset=args.dataset, 
@@ -187,7 +192,7 @@ def main():
         logging.info("criterion: %s", criterion)
         logging.info('scheduler: %s', lr_scheduler)
 
-    def Log_UP(epoch):
+    def cpt_tk(epoch):
         "compute t&k in back-propagation"
         T_min, T_max = torch.tensor(args.Tmin).float(), torch.tensor(args.Tmax).float()
         Tmin, Tmax = torch.log10(T_min), torch.log10(T_max)
@@ -211,7 +216,7 @@ def main():
             logging.info('lr: %s', param_group['lr'])
 
         #* compute t/k in back-propagation
-        t,k = Log_UP(epoch)
+        t,k = cpt_tk(epoch)
         for name,module in model.named_modules():
             if isinstance(module,nn.Conv2d):
                 module.k = k.cuda()
@@ -386,7 +391,7 @@ def forward(data_loader, model, criterion, epoch=0, training=True, optimizer=Non
                                 epoch, i*batchsize, len(data_loader)*batchsize,
                                 phase='TRAINING' if training else 'EVALUATING',
                                 batch_time=batch_time,
-                                data_time=data_time, loss=losses, 
+                                data_time=data_time, loss=losses,
                                 top1=top1, top5=top5))
 
     return losses.avg, top1.avg, top5.avg

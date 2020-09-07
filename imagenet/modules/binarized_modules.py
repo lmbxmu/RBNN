@@ -31,10 +31,10 @@ class BinarizeConv2d(nn.Conv2d):
     def forward(self, input):
         a0 = input
         w = self.weight
-        w1 = w - w.view(w.size(0), -1).mean(-1).view(w.size(0), 1, 1, 1)
-        w2 = w1 / w1.view(w1.size(0), -1).std(-1).view(w1.size(0), 1, 1, 1)
-        a1 = a0 - a0.view(a0.size(0), -1).mean(-1).view(a0.size(0), 1, 1, 1)
-        a2 = a1 / a1.view(a1.size(0), -1).std(-1).view(a1.size(0), 1, 1, 1)
+        w1 = w - w.mean([1,2,3], keepdim=True)
+        w2 = w1 / w1.std([1,2,3], keepdim=True)
+        a1 = a0 - a0.mean([1,2,3], keepdim=True)
+        a2 = a1 / a1.std([1,2,3], keepdim=True)
         a, b = self.a, self.b
         X = w2.view(w.shape[0], a, b)
         if self.epoch > -1 and self.epoch % args.rotation_update == 0:
@@ -54,7 +54,6 @@ class BinarizeConv2d(nn.Conv2d):
         delta = self.Rweight.detach() - w2
         w3 = w2 + torch.abs(torch.sin(self.rotate)) * delta
 
-        self.Rotate = torch.mean(torch.abs(torch.sin(self.rotate)))
         #* binarize
         bw = BinaryQuantize().apply(w3, self.k.to(w.device), self.t.to(w.device))
         if args.a32:

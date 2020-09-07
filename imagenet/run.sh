@@ -1,8 +1,8 @@
 python -u main.py \
 --gpus 0,1,2,3 \
 --model resnet18_1w1a \
---results_dir DIR \
---data_path DATA_PATH \
+--results_dir [DIR] \
+--data_path [DATA_PATH] \
 --dataset imagenet \
 --epochs 150 \
 --lr 0.1 \
