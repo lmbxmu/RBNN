@@ -1,10 +1,25 @@
 # Rotated Binary Neural Network ([Link]()).
+
+Pytorch implementation of RBNN ().
+
 torch.\_\_version\_\_=1.1.0 
 
 
 ## Tips
 
 Any problem, please contact the authors via emails: lmbxmu@stu.xmu.edu.cn or ianhsu@stu.xmu.edu.cn or adding the first author's wechat as friends (id: linmb007 if you are using wechat) for convenient communications. Do not post issues with github as much as possible, just in case that I could not receive the emails from github thus ignore the posted issues.
+
+## Citation
+If you find RBNN useful in your research, please consider citing:
+
+```
+@inproceedings{lin2020rotated,
+  title={Rotated Binary Neural Network},
+  author={Lin, Mingbao and Ji, Rongrong and Xu, Zihan and Zhang, Baochang and Wang, Yan and Wu, Yongjian and Huang, Feiyue and Lin, Chia-Wen},
+  booktitle={},
+  pages={},
+  year={2020}
+}
 
 
 ## Training on CIFAR-10
