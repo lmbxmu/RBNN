@@ -28,7 +28,7 @@ If you find RBNN useful in your research, please consider citing:
 ```bash
 python -u main.py \
 --gpus 0 \
---model resnet20_1w1a (or resnet18_1w1a or vgg_small_1w1a) \
+--model resnet20_bireal_1w1a (or resnet20_1w1a or resnet18_1w1a or vgg_small_1w1a) \
 --results_dir ./result \
 --data_path [DATA_PATH] \
 --dataset cifar10 \
@@ -49,8 +49,8 @@ optinal arguments:
     --resume                  Load checkpoint    
     --evaluate / -e           Evaluate  
     --model / -a              Choose model   
-                              default: resnet20_1w1a;   
-                              options: resnet18_1w1a / vgg_small_1w1a       
+                              default: resnet20_bireal_1w1a   
+                              options: resnet20_1w1a / resnet18_1w1a / vgg_small_1w1a       
     --dataset                 Choose dataset
                               default: cifar10
                               options: cifar100 / tinyimagenet / imagenet  
@@ -102,11 +102,11 @@ To ensure the reproducibility, please refer to our training details provided in 
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
 To verify our quantized model performance on CIFAR-10, please use the following command:
-```python 
+```bash 
 python -u main.py \
 --gpus 0 \
 -e [best_model_path] \
---model resnet20_1w1a (or resnet18_1w1a or vgg_small_1w1a) \
+--model resnet20_bireal_1w1a (or resnet20_1w1a or resnet18_1w1a or vgg_small_1w1a) \
 --data_path [DATA_PATH] \
 --dataset cifar10 \
 -bt 128 \
@@ -163,7 +163,7 @@ To ensure the reproducibility, please refer to our training details provided in 
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
 
 To verify our quantized model performance on ImageNet, please use the following command:
-```
+```bash
 python -u main.py \
 --gpu 0 \
 -e [best_model_path] \

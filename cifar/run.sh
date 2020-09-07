@@ -1,6 +1,6 @@
 python -u main.py \
 --gpus 0 \
---model resnet20_1w1a \
+--model resnet20_bireal_1w1a \
 --results_dir [DIR] \
 --data_path [DATA_PATH] \
 --dataset cifar10 \

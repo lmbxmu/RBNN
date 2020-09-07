@@ -35,7 +35,7 @@ from modules import *
 
 from torch.autograd import Variable
 
-__all__ = ['resnet20_1w1a']
+__all__ = ['resnet20_bireal_1w1a']
 
 
 class LambdaLayer(nn.Module):
@@ -104,9 +104,11 @@ class BasicBlock_1w1a(nn.Module):
 
     def forward(self, x):
         out = self.bn1(self.conv1(x))
-        out = F.hardtanh(out)
-        out = self.bn2(self.conv2(out))
         out += self.shortcut(x)
+        out = F.hardtanh(out)
+        x1 = out
+        out = self.bn2(self.conv2(out))
+        out += x1
         out = F.hardtanh(out)
         return out
 
@@ -152,7 +154,7 @@ class ResNet(nn.Module):
         return out
 
 
-def resnet20_1w1a(**kwargs):
+def resnet20_bireal_1w1a(**kwargs):
     return ResNet(BasicBlock_1w1a, [3, 3, 3],**kwargs)
 
 

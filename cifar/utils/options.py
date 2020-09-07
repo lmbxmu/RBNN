@@ -43,7 +43,7 @@ parser.add_argument(
     '--model',
     '-a',
     metavar='MODEL',
-    default='resnet20_1w1a',
+    default='resnet20_bireal_1w1a',
     help='model architecture ')
 
 parser.add_argument(
@@ -55,7 +55,7 @@ parser.add_argument(
 parser.add_argument(
     '--data_path',
     type=str,
-    default='/home/xuzihan/data',
+    default='/home/data',
     help='The dictionary where the dataset is stored.')
 
 parser.add_argument(

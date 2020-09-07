@@ -55,7 +55,7 @@ parser.add_argument(
 parser.add_argument(
     '--data_path',
     type=str,
-    default='/home/xuzihan/data',
+    default='/home/data',
     help='The dictionary where the dataset is stored.')
 
 parser.add_argument(
