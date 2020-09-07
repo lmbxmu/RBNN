@@ -2,7 +2,9 @@
 
 Pytorch implementation of RBNN ().
 
-torch.\_\_version\_\_=1.1.0 
+**Dependencies**  
+* Python 3.7
+* Pytorch == 1.1.0 
 
 
 ## Tips
