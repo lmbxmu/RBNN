@@ -26,7 +26,7 @@ If you find RBNN useful in your research, please consider citing:
 ```bash
 python -u main.py \
 --gpus 0 \
---model resnet20_1w1a \
+--model resnet20_1w1a (or resnet18_1w1a or vgg_small_1w1a) \
 --results_dir ./result \
 --data_path [DATA_PATH] \
 --dataset cifar10 \
