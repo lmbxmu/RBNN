@@ -39,7 +39,7 @@ python -u main.py \
 --lr_type cos \
 --warm_up \
 ```
-### Other optional arguments
+### Optional arguments
 ```
 optinal arguments:
     --results_dir             Path to save directory  
