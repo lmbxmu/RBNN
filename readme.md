@@ -102,7 +102,6 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 #for cuda10.0
 pip install --extra-index-url https://developer.download.nvidia.com/compute/redist/cuda/10.0 nvidia-dali
 ```
-\
 
 
 ### Results on ImageNet
