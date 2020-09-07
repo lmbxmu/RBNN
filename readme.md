@@ -7,7 +7,7 @@ torch.\_\_version\_\_=1.1.0
 Any problem, please contact the authors via emails: lmbxmu@stu.xmu.edu.cn or ianhsu@stu.xmu.edu.cn or adding the first author's wechat as friends (id: linmb007 if you are using wechat) for convenient communications. Do not post issues with github as much as possible, just in case that I could not receive the emails from github thus ignore the posted issues.
 
 
-## CIFAR-10
+## Training on CIFAR-10
 ```bash
 python -u main.py \
 --gpus 0 \
@@ -69,7 +69,7 @@ warm_up | True | True | True
 Note: If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
 
-## ImageNet
+## Training on ImageNet
 ```bash
 python -u main.py \
 --gpus 0,1,2,3 \
@@ -77,14 +77,13 @@ python -u main.py \
 --results_dir ./result \
 --data_path ./data \
 --dataset imagenet \
---epochs 120 \
+--epochs 150 \
 --lr 0.1 \
--b 256 \
--bt 128 \
+-b 512 \
+-bt 256 \
 --Tmin 1e-2 \
 --Tmax 1e1 \
 --lr_type cos \
---warm_up \
 --use_dali \
 ```   
 Other arguments are the same as those on CIFAR-10 
@@ -104,7 +103,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 ```
 
 
-### Results on ImageNet
+### Results on ImageNet: To ensure the reproducibility, please refer to our training details provided in the model link.
 
 | batch_size | batch_size_test | use_dali| Top-1| Top-5 |model Link | Paper data|
 |:----------:|:---------------:|:-------:|:----:|:-----:|:---------:|:---------:|
