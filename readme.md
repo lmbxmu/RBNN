@@ -142,7 +142,7 @@ To verify our quantized model performance on ImageNet, please use the following 
 python -u main.py \
 --gpu 0 \
 -e path for quantized model \
---model resnet18_1w1a (or resnet34_w1a)\
+--model resnet18_1w1a (or resnet34_1w1a)\
 --dataset imagenet \
 --data_path path for ImageNet \
 -b 512 \
