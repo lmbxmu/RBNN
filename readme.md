@@ -105,7 +105,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 
 
 ### Results on ImageNet
-<font size=2>
+<font size=1>
 
 |lr| weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type |rotation_update | warm_up | use_dali| model | Top-1| Top-5 | Link | Paper data|
 |:--:|:------------:|:--------:|:------:|:----------:|:---------------:|:----:|:----:|:-------:|:---------------:|:-------:|:-------:|:-----:|:----:|:-----:|:----:|:---------:|
