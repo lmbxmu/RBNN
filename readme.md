@@ -97,7 +97,7 @@ Other arguments are the same as those on CIFAR-10
 &emsp;&emsp;default: resnet18_1w1a.   
 &emsp;&emsp;options: resnet34_1w1a     
 
-We provide two types of dataloaders by [nvidia-dali](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html) and [Pytorch](https://pytorch.org/docs/stable/data.html) respectively. They use the same data augmentations, including random crop and horizontal flip. We empirically find that the dataloader by Pytorch can offer a better accuracy performance. They may have different code implementations. Anyway, we haven't figured it out yet. However, nvidia-dali shows its extreme efficiency in processing data which well accelerates the network training. The reported experimental results are on the basis of nvidia-dali due to the very limited time in preparation of NeurIPS submission. If interested, you can try dataloader by Pytorch via removing the optional augment ```-- use_dali``` to obtain a better performance.
+We provide two types of dataloaders by [nvidia-dali](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html) and [Pytorch](https://pytorch.org/docs/stable/data.html) respectively. They use the same data augmentations, including random crop and horizontal flip. We empirically find that the dataloader by Pytorch can offer a better accuracy performance. They may have different code implementations. Anyway, we haven't figured it out yet. However, nvidia-dali shows its extreme efficiency in processing data which well accelerates the network training. The reported experimental results are on the basis of nvidia-dali due to the very limited time in preparation of NeurIPS submission. If interested, you can try dataloader by Pytorch via removing the optional argument ```-- use_dali``` to obtain a better performance.
  
  \
 nvidia-dali package
@@ -119,7 +119,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 |   512      |  256            |  150  | Yes     |63.141|84.379 |resnet34_1w1a        |  Yes|
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
-Small tips for further boosting the performance of our method: (1) removing the optional augment ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
+Small tips for further boosting the performance of our method: (1) removing the optional argument ```-- use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
 
 To verify our quantized model performance on ImageNet, please use the following command:
 ```
