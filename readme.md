@@ -55,9 +55,10 @@ python -u main.py \
 
 | batch_size | batch_size_test | epochs| Top-1 |quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-----:|:-------------------:|:---------:|
-|   256      |  128            |1,000  |       |resnet18_1w1a        |  Yes      | 
-|   512      |  128            |1,000  |       |resnet20_1w1a        |  Yes      | 
-|   512      |  128            |1,000  |       |vgg_small_1w1a       |  Yes      | 
+|   256      |  128            |1,000  | 92.2% |resnet18_1w1a        |  Yes      | 
+|   512      |  128            |1,000  | 86.5% |resnet20_1w1a        |  Yes      | 
+|   512      |  128            |1,000  | 87.8% |resnet20_1w1a        |  Yes      | 
+|   512      |  128            |1,000  | 91.3% |vgg_small_1w1a       |  Yes      | 
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
