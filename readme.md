@@ -7,7 +7,7 @@ torch.\_\_version\_\_=1.1.0
 Any problem, please contact the authors via emails: lmbxmu@stu.xmu.edu.cn or ianhsu@stu.xmu.edu.cn or adding the first author's wechat as friends (id: linmb007 if you are using wechat) for convenient communications. Do not post issues with github as much as possible, just in case that I could not receive the emails from github thus ignore the posted issues.
 
 
-# CIFAR-10
+## CIFAR-10
 ```bash
 python -u main.py \
 --gpus 0 \
@@ -51,7 +51,7 @@ python -u main.py \
 `--a32` &emsp;Don't binarize activation, namely w1a32    
 `--warm_up` &emsp;Use warm up  
 
-## Implementation details on Cifar10
+### Implementation details on Cifar10
 args | resnet20_1w1a | resnet18_1w1a | vgg_small_1w1a
 -|:-:|:-:|:-:
 lr | 0.1 | 0.1 | 0.1
@@ -68,7 +68,7 @@ warm_up | True | True | True
 
 Note: Training for 400 epochs on cifar10 can also achieve impressive results, but training for 1000 epochs performs better, so we set `epochs` to 1000 as default.
 
-# ImageNet
+## ImageNet
 ```bash
 python -u main.py \
 --gpus 0,1,2,3 \
@@ -100,7 +100,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 ```
 More details and documents can be found [here](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html#)
 
-## Implementation details on ImageNet
+### Implementation details on ImageNet
 <font size=2>
 
 |lr| weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type |rotation_update | warm_up | use_dali| model | Top-1| Top-5 | Link | Paper data|
