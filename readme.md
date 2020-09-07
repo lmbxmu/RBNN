@@ -87,10 +87,12 @@ python -u main.py \
 --warm_up \
 --use_dali \
 ```   
-Other arguments are the same as those in CIFAR  
+Other arguments are the same as those on CIFAR-10 
 `--model / -a` &emsp;Choose model，  
 &emsp;&emsp;default: resnet18_1w1a.   
 &emsp;&emsp;options: resnet34_1w1a     
+
+We provide two types of dataloaders, i.e, nvidia-dali and the standard implementation in Pytorch. They use the same data augmentations, including random crop and horizontal flip.
   
 Imagenet DataLoaders are implemented with [nvidia-dali](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html), if you have never used dali before, you only need to install nvidia-dali package and the version of nvidia-dali should be >= 0.12
 ```
