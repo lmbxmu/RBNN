@@ -96,19 +96,6 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 More details and documents can be found [here](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html#)
 
 ## Implementation details on ImageNet
-args | resnet18_1w1a | resnet34_1w1a 
--|:-:|:-:
-lr | 0.1 | 0.1 
-weight_decay | 1e-4 | 1e-4 
-momentum | 0.9 | 0.9 
-epochs | 120 | 120
-batch_size | 256 | 256 
-batch_size_test | 128 | 128 
-Tmin | 1e-2 | 1e-2 
-Tmax | 1e1 | 1e1 
-lr_type | cos | cos 
-rotation_update | 1 | 1 
-warm_up | True | True 
 
 | lr | weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type | rotation_update | warm_up | model | Top-1| Top-5 | Link | Paper data|
 |----|--------------|----------|--------|------------|-----------------|------|------|---------|-----------------|---------|-------|------|-------|------|-----------|
