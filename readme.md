@@ -51,7 +51,7 @@ python -u main.py \
 `--a32` &emsp;Don't binarize activation, namely w1a32    
 `--warm_up` &emsp;Use warm up  
 
-### Implementation details on Cifar10
+### Results on CIFAR-10
 args | resnet20_1w1a | resnet18_1w1a | vgg_small_1w1a
 -|:-:|:-:|:-:
 lr | 0.1 | 0.1 | 0.1
@@ -86,7 +86,7 @@ python -u main.py \
 --warm_up \
 --use_dali \
 ```   
-Other args are the same as those in CIFAR  
+Other arguments are the same as those in CIFAR  
 `--model / -a` &emsp;Choose model，  
 &emsp;&emsp;default: resnet18_1w1a.   
 &emsp;&emsp;options: resnet34_1w1a     
@@ -100,7 +100,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 ```
 More details and documents can be found [here](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/index.html#)
 
-### Implementation details on ImageNet
+### Results on ImageNet
 <font size=2>
 
 |lr| weight_decay | momentum | epochs | batch_size | batch_size_test | Tmin | Tmax | lr_type |rotation_update | warm_up | use_dali| model | Top-1| Top-5 | Link | Paper data|
