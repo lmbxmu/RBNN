@@ -12,7 +12,6 @@ Any problem, please contact the authors via emails: lmbxmu@stu.xmu.edu.cn or ian
 ## Citation
 If you find RBNN useful in your research, please consider citing:
 
-```
 @inproceedings{lin2020rotated,
   title={Rotated Binary Neural Network},
   author={Lin, Mingbao and Ji, Rongrong and Xu, Zihan and Zhang, Baochang and Wang, Yan and Wu, Yongjian and Huang, Feiyue and Lin, Chia-Wen},
