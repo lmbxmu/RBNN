@@ -101,7 +101,7 @@ optinal arguments:
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
-To verify our quantized model performance on CIFAR-10, please use the following command:
+To verify the performance of our quantized models on CIFAR-10, please use the following command:
 ```bash 
 python -u main.py \
 --gpus 0 \
@@ -162,7 +162,7 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```--use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
 
-To verify our quantized model performance on ImageNet, please use the following command:
+To verify the performance of our quantized models on ImageNet, please use the following command:
 ```bash
 python -u main.py \
 --gpu 0 \
