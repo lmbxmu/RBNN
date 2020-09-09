@@ -9,7 +9,7 @@ Pytorch implementation of RBNN ().
 
 ## Tips
 
-We encourage the readers to have a look at the material of [authors' response](https://github.com/lmbxmu/RBNN/blob/master/RBNN_author_response.pdf) which may explain your potential questions when reading our paper. Any problem beyond that, please contact the first author (lmbxmu@stu.xmu.edu.cn or linmb007 if you are using wechat)) or the third author (ianhsu@stu.xmu.edu.cn). Do not post issues with github as much as possible, just in case that I could not receive the emails from github thus ignore the posted issues.
+We encourage the readers to have a look at the material of [authors' response](https://github.com/lmbxmu/RBNN/blob/master/RBNN_author_response.pdf) which may explain your potential questions when reading our paper. Any problem beyond that, please contact the first author (lmbxmu@stu.xmu.edu.cn or linmb007 if you are using wechat) or the third author (ianhsu@stu.xmu.edu.cn). You could also post issues with github, but sometimes I could not receive github emails thus ignore the posted issues.
 
 ## Citation
 If you find RBNN useful in your research, please consider citing:
