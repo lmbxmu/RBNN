@@ -1,6 +1,6 @@
 # Rotated Binary Neural Network ([Link]()).
 
-Pytorch implementation of RBNN (). We also encourage the readers to have look at our response which may explain your potential questions when reading our paper.
+Pytorch implementation of RBNN (). We also encourage the readers to have a look at the material of authors' [response](https://github.com/lmbxmu/RBNN/blob/master/RBNN_author_response.pdf) which may explain your potential questions when reading our paper.
 
 ## Dependencies 
 * Python 3.7
