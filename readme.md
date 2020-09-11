@@ -17,8 +17,7 @@ If you find RBNN useful in your research, please consider citing:
 @inproceedings{lin2020rotated,
   title={Rotated Binary Neural Network},
   author={Lin, Mingbao and Ji, Rongrong and Xu, Zihan and Zhang, Baochang and Wang, Yan and Wu, Yongjian and Huang, Feiyue and Lin, Chia-Wen},
-  booktitle={},
-  pages={},
+  booktitle={Proceedings of the Advances in Neural Information Processing Systems (NeurIPS)},
   year={2020}
 }
 ```
