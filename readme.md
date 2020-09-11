@@ -1,6 +1,6 @@
 # Rotated Binary Neural Network ([Link]()).
 
-Pytorch implementation of RBNN ().
+Pytorch implementation of RBNN (NeurIPS 2020).
 
 ## Dependencies 
 * Python 3.7
