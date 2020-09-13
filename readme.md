@@ -2,6 +2,10 @@
 
 Pytorch implementation of RBNN (NeurIPS 2020).
 
+<div align=center><img src="framework.jpeg" height = "60%" width = "70%"/></div>
+
+
+
 ## Dependencies 
 * Python 3.7
 * Pytorch == 1.1.0 
