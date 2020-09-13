@@ -45,7 +45,7 @@ python -u main.py \
 optinal arguments:
     --results_dir             Path to save directory  
     --save                    Path to save folder    
-    --resume                  Load checkpoint    
+    --resume                  Reload last checkpoint if the training is terminated by accident.
     --evaluate / -e           Evaluate  
     --model / -a              Choose model   
                               default: resnet20_bireal_1w1a   
