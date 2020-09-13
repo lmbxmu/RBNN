@@ -60,7 +60,7 @@ optinal arguments:
                               default: cifar10
                               options: cifar100 / tinyimagenet / imagenet  
     --data_path               Path to dataset    
-    --gpus                    Specify gpus, e.g. 0, 1  
+    --gpus                    Specify gpus, e.g., 0, 1  
     --lr                      Learning rate
                               default: 0.1  
     --weight_decay            Weight decay
@@ -90,7 +90,7 @@ optinal arguments:
                               default: cos (CosineAnnealingLR)
                               options: step (MultiStepLR)  
     --lr_decay_step           If choose MultiStepLR, set milestones.
-                              eg: 30 60 90    
+                              e.g., 30 60 90    
     --a32                     Don't binarize activation, namely w1a32    
     --warm_up                 Use warm up  
 ```
