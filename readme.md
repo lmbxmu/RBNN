@@ -16,7 +16,7 @@ Pytorch implementation of RBNN (NeurIPS 2020).
 We encourage the readers to have a look at the materials of [reviewers' comments](https://github.com/lmbxmu/RBNN/blob/master/RBNN_reviewer_comment.pdf) and [authors' responses](https://github.com/lmbxmu/RBNN/blob/master/RBNN_author_response.pdf) which might explain your potential questions w.r.t. our paper. Any problem beyond that, please contact the first author (lmbxmu@stu.xmu.edu.cn or linmb007 if you are using wechat) or the third author (ianhsu@stu.xmu.edu.cn). Also, you can post issues with github, but sometimes we could not receive github emails thus may ignore the posted issues (sorry if it happens).
 
 
-Our rotation design can be combined with most existing methods to boost the performance by reducing the angular bias, such as XNOR-Net and Bi-real. 
+By reducing the angular bias, our rotation design can be utilized to further boost the performance on the basis of existing methods, such as XNOR-Net and Bi-real structure as demonstrated in the paper. We encourage the readers to try it on more recent arts such as [ReActNet](https://arxiv.org/pdf/2003.03488.pdf), structure of which has significantly improved to the performance of binary neural network.
 
 
 ## Citation
