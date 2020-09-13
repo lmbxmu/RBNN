@@ -1,4 +1,4 @@
-# Rotated Binary Neural Network ([Link]()).
+# Rotated Binary Neural Network (Paper Coming).
 
 Pytorch implementation of RBNN (NeurIPS 2020).
 
