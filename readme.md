@@ -1,6 +1,10 @@
-# Rotated Binary Neural Network ([Link]()).
+# Rotated Binary Neural Network (Paper Coming).
 
-Pytorch implementation of RBNN ().
+Pytorch implementation of RBNN (NeurIPS 2020).
+
+<div align=center><img src="framework.jpeg" height = "50%" width = "60%"/></div>
+
+
 
 ## Dependencies 
 * Python 3.7
@@ -9,7 +13,9 @@ Pytorch implementation of RBNN ().
 
 ## Tips
 
-Any problem, please contact the authors via emails: lmbxmu@stu.xmu.edu.cn or ianhsu@stu.xmu.edu.cn or adding the first author's wechat as friends (id: linmb007 if you are using wechat) for convenient communications. Do not post issues with github as much as possible, just in case that I could not receive the emails from github thus ignore the posted issues.
+We encourage the readers to have a look at the materials of [reviewers' comments](https://github.com/lmbxmu/RBNN/blob/master/RBNN_reviewer_comment.pdf) and [authors' responses](https://github.com/lmbxmu/RBNN/blob/master/RBNN_author_response.pdf) which might explain your potential questions w.r.t. our paper. Any problem beyond that, please contact the first author (lmbxmu@stu.xmu.edu.cn or linmb007 if you are using wechat) or the third author (ianhsu@stu.xmu.edu.cn). Also, you can post issues with github, but sometimes we could not receive github emails thus may ignore the posted issues (sorry if it happens).
+
+
 
 ## Citation
 If you find RBNN useful in your research, please consider citing:
@@ -17,8 +23,7 @@ If you find RBNN useful in your research, please consider citing:
 @inproceedings{lin2020rotated,
   title={Rotated Binary Neural Network},
   author={Lin, Mingbao and Ji, Rongrong and Xu, Zihan and Zhang, Baochang and Wang, Yan and Wu, Yongjian and Huang, Feiyue and Lin, Chia-Wen},
-  booktitle={},
-  pages={},
+  booktitle={Proceedings of the Advances in Neural Information Processing Systems (NeurIPS)},
   year={2020}
 }
 ```
@@ -46,7 +51,7 @@ python -u main.py \
 optinal arguments:
     --results_dir             Path to save directory  
     --save                    Path to save folder    
-    --resume                  Load checkpoint    
+    --resume                  Reload last checkpoint if the training is terminated by accident.
     --evaluate / -e           Evaluate  
     --model / -a              Choose model   
                               default: resnet20_bireal_1w1a   
@@ -55,7 +60,7 @@ optinal arguments:
                               default: cifar10
                               options: cifar100 / tinyimagenet / imagenet  
     --data_path               Path to dataset    
-    --gpus                    Specify gpus, e.g. 0, 1  
+    --gpus                    Specify gpus, e.g., 0, 1  
     --lr                      Learning rate
                               default: 0.1  
     --weight_decay            Weight decay
@@ -85,7 +90,7 @@ optinal arguments:
                               default: cos (CosineAnnealingLR)
                               options: step (MultiStepLR)  
     --lr_decay_step           If choose MultiStepLR, set milestones.
-                              eg: 30 60 90    
+                              e.g., 30 60 90    
     --a32                     Don't binarize activation, namely w1a32    
     --warm_up                 Use warm up  
 ```
@@ -101,7 +106,7 @@ optinal arguments:
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 If it takes too much time to finish a total of 1,000 epochs on your platform, you can consider 400 epochs instead. It can feed back impressive performance as well, better than the compared methods in the paper.
 
-To verify our quantized model performance on CIFAR-10, please use the following command:
+To verify the performance of our quantized models on CIFAR-10, please use the following command:
 ```bash 
 python -u main.py \
 --gpus 0 \
@@ -155,15 +160,21 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 | batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
 |   256      |  256            |  120  | Yes     |58.8% | 80.9% |[resnet18_1w1a](https://drive.google.com/drive/folders/1Gr6mGDOTqKYipq6kstBbxiFWbvVZ_lWE?usp=sharing)| ✘ | 
+<<<<<<< HEAD
 |   512      |  256            |  120  | Yes     |59.6% | 81.6% |[resnet18_1w1a](https://drive.google.com/drive/folders/1xccbtWqm0x8ZF8FVh9wDlhiZmteanGnC?usp=sharing)| ✔ | 
 |   512      |  256            |  150  | Yes     |59.9% | 81.9% |[resnet18_1w1a](https://drive.google.com/drive/folders/14jxaB8SwohsxYXJdjQJERw80IQVV7-Ll?usp=sharing)| ✘ | 
 |   512      |  256            |  150  | Yes     |63.1% | 84.4% |[resnet34_1w1a](https://drive.google.com/drive/folders/18IxJlYp4i032188hfE3ETJOKH4WxgffF?usp=sharing)| ✘ |
 |   512      |  256            |  200  | Yes     |63.5% | 84.6% |[resnet34_1w1a](https://drive.google.com/drive/folders/1R7uz2he4itmwpH026KsVJvs6oWP4iaB8?usp=sharing)| ✔ |
+=======
+|   512      |  256            |  120  | Yes     |59.6% | 81.6% |[resnet18_1w1a](https://drive.google.com/drive/folders/1xccbtWqm0x8ZF8FVh9wDlhiZmteanGnC?usp=sharing)| ✘ | 
+|   512      |  256            |  150  | Yes     |59.9% | 81.9% |[resnet18_1w1a](https://drive.google.com/drive/folders/14jxaB8SwohsxYXJdjQJERw80IQVV7-Ll?usp=sharing)| ✔ | 
+|   512      |  256            |  150  | Yes     |63.1% | 84.4% |[resnet34_1w1a](https://drive.google.com/drive/folders/18IxJlYp4i032188hfE3ETJOKH4WxgffF?usp=sharing)| ✔ |
+>>>>>>> c2acd65c21a5b2437c0826a70ce968c9af8cd0bc
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```--use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
 
-To verify our quantized model performance on ImageNet, please use the following command:
+To verify the performance of our quantized models on ImageNet, please use the following command:
 ```bash
 python -u main.py \
 --gpu 0 \
