@@ -160,16 +160,9 @@ pip install --extra-index-url https://developer.download.nvidia.com/compute/redi
 | batch_size | batch_size_test | epochs| use_dali| Top-1| Top-5 |Quantized model Link | Paper data|
 |:----------:|:---------------:|:-----:|:-------:|:----:|:-----:|:-------------------:|:---------:|
 |   256      |  256            |  120  | Yes     |58.8% | 80.9% |[resnet18_1w1a](https://drive.google.com/drive/folders/1Gr6mGDOTqKYipq6kstBbxiFWbvVZ_lWE?usp=sharing)| ✘ | 
-<<<<<<< HEAD
-|   512      |  256            |  120  | Yes     |59.6% | 81.6% |[resnet18_1w1a](https://drive.google.com/drive/folders/1xccbtWqm0x8ZF8FVh9wDlhiZmteanGnC?usp=sharing)| ✔ | 
-|   512      |  256            |  150  | Yes     |59.9% | 81.9% |[resnet18_1w1a](https://drive.google.com/drive/folders/14jxaB8SwohsxYXJdjQJERw80IQVV7-Ll?usp=sharing)| ✘ | 
-|   512      |  256            |  150  | Yes     |63.1% | 84.4% |[resnet34_1w1a](https://drive.google.com/drive/folders/18IxJlYp4i032188hfE3ETJOKH4WxgffF?usp=sharing)| ✘ |
-|   512      |  256            |  200  | Yes     |63.5% | 84.6% |[resnet34_1w1a](https://drive.google.com/drive/folders/1R7uz2he4itmwpH026KsVJvs6oWP4iaB8?usp=sharing)| ✔ |
-=======
 |   512      |  256            |  120  | Yes     |59.6% | 81.6% |[resnet18_1w1a](https://drive.google.com/drive/folders/1xccbtWqm0x8ZF8FVh9wDlhiZmteanGnC?usp=sharing)| ✘ | 
 |   512      |  256            |  150  | Yes     |59.9% | 81.9% |[resnet18_1w1a](https://drive.google.com/drive/folders/14jxaB8SwohsxYXJdjQJERw80IQVV7-Ll?usp=sharing)| ✔ | 
 |   512      |  256            |  150  | Yes     |63.1% | 84.4% |[resnet34_1w1a](https://drive.google.com/drive/folders/18IxJlYp4i032188hfE3ETJOKH4WxgffF?usp=sharing)| ✔ |
->>>>>>> c2acd65c21a5b2437c0826a70ce968c9af8cd0bc
 
 To ensure the reproducibility, please refer to our training details provided in the links for our quantized models. \
 Small tips for further boosting the performance of our method: (1) removing the optional argument ```--use_dali``` as discussed above; (2) increasing the training epochs (200 for example, as adopted in most existing works for binary neural network); (3) enlarging the batch size for training (2048 for example if you have a powerful platform, as done in some existing works). 
