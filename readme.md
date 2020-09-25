@@ -13,7 +13,7 @@ Pytorch implementation of RBNN (NeurIPS 2020).
 
 ## Tips
 
-We encourage the readers to have a look at the materials of [reviewers' comments](https://github.com/lmbxmu/RBNN/blob/master/RBNN_reviewer_comment.pdf) and [authors' responses](https://github.com/lmbxmu/RBNN/blob/master/RBNN_author_response.pdf) which might explain your potential questions w.r.t. our paper. Any problem beyond that, please contact the first author (lmbxmu@stu.xmu.edu.cn) or the third author (ianhsu@stu.xmu.edu.cn). Also, you can post issues with github, but sometimes we could not receive github emails thus may ignore the posted issues (sorry if it happens).
+Any problem, please contact the first author (lmbxmu@stu.xmu.edu.cn) or the third author (ianhsu@stu.xmu.edu.cn). Also, you can post issues with github, but sometimes we could not receive github emails thus may ignore the posted issues (sorry if it happens).
 
 
 
@@ -24,6 +24,7 @@ If you find RBNN useful in your research, please consider citing:
   title={Rotated Binary Neural Network},
   author={Lin, Mingbao and Ji, Rongrong and Xu, Zihan and Zhang, Baochang and Wang, Yan and Wu, Yongjian and Huang, Feiyue and Lin, Chia-Wen},
   booktitle={Proceedings of the Advances in Neural Information Processing Systems (NeurIPS)},
+  pages = {},
   year={2020}
 }
 ```
