@@ -1,4 +1,4 @@
-# Rotated Binary Neural Network ([Paper Link](https://arxiv.org/abs/2009.13055)) ![]( https://visitor-badge.glitch.me/badge?page_id=lmbxmu.rbnn).
+# Rotated Binary Neural Network ([Paper Link](https://arxiv.org/abs/2009.13055)) ![]( https://visitor-badge.glitch.me/badge?page_id=lmbxmu.nips.rbnn).
 
 Pytorch implementation of RBNN (NeurIPS 2020).
 
