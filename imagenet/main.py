@@ -6,8 +6,8 @@ import random
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
-import models_bnn
-import models
+import models_cifar
+import models_imagenet
 import numpy as np
 from torch.autograd import Variable
 from utils.options import args
@@ -52,16 +52,16 @@ def main():
 
     if args.dataset=='tinyimagenet':
         num_classes=200
-        model_zoo = 'models.'
+        model_zoo = 'models_imagenet.'
     elif args.dataset=='imagenet':
         num_classes=1000
-        model_zoo = 'models.'
+        model_zoo = 'models_imagenet.'
     elif args.dataset=='cifar10': 
         num_classes=10
-        model_zoo = 'models_bnn.'
+        model_zoo = 'models_cifar.'
     elif args.dataset=='cifar100': 
         num_classes=100
-        model_zoo = 'models_bnn.'
+        model_zoo = 'models_cifar.'
 
     if len(args.gpus)==1:
         model = eval(model_zoo+args.model)(num_classes=num_classes).cuda()
