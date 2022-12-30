@@ -2,6 +2,8 @@
 
 Pytorch implementation of RBNN (NeurIPS 2020).
 
+Here, we also provide the journal version of SiMAN (IEEE TPAMI 2022) ([Paper Link](https://arxiv.org/abs/2102.07981), [Code Link](https://github.com/lmbxmu/SiMaN))
+
 <div align=center><img src="framework.jpeg" height = "50%" width = "60%"/></div>
 
 
